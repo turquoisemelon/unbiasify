@@ -16,7 +16,6 @@ On the way
 # Special thanks
 Everyone at Unbiasify would like to extend a special thanks to the following companies for their contributions and support.
 
-<div align="center">
+
 ![Rangle.io ](assets/rangle.png)
 ![StackAdapt](assets/stackadapt.png)
-</div>
