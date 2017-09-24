@@ -14,7 +14,9 @@ If you'd just like access to the tool, you can install it over at the chrome sto
 On the way
 
 # Special thanks
-Everyone at Unbiasify would like to extend a special thanks to the following companies for their contributions and support; without whom none of this would be possible 
+Everyone at Unbiasify would like to extend a special thanks to the following companies for their contributions and support.
 
+<div align="center">
 ![Rangle.io ](assets/rangle.png)
 ![StackAdapt](assets/stackadapt.png)
+</div>
