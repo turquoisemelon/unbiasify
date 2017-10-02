@@ -1,5 +1,5 @@
 # Welcome to Unbiasify
-Unbiasify is a tool to help reduce the amount of uncognitive bias that people face when perusing many aspects of the internet.
+Unbiasify is a tool to help reduce the amount of unconscious bias that people face when perusing many aspects of the internet.
 
 The current functionality includes the ability to obfuscate/remove names and avatars from linkedin.
 
