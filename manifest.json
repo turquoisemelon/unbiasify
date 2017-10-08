@@ -1,34 +1,32 @@
 {
   "name": "Unbiasify",
-  "description": "Unbiasify hides names and profile photos on LinkedIn. So you can focus on what really matters; people's skills and experiences.", 
+  "description":
+    "Unbiasify hides names and profile photos on LinkedIn. So you can focus on what really matters; people's skills and experiences.",
   "version": "1.0",
-
-  "permissions": [
-    "activeTab"
-  ],
 
   "background": {
     "persistent": false,
-    "scripts": ["index.js"]
-    
+    "scripts": ["index.js", "page-scripts/linkedin.js"]
   },
 
   "browser_action": {
     "default_icon": "icon.png",
     "default_title": "Unbiasify",
     "default_popup": "index.html"
-
   },
 
-  "icons" : {
-    "64" : "icon.png"
-  
+  "icons": {
+    "64": "icon.png"
   },
 
   "manifest_version": 2,
-  "content_security_policy":"script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js; object-src 'self'",
-   "permissions": [
-     "activeTab",
-     "https://ajax.googleapis.com/"
-   ]
+  "content_security_policy":
+    "script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js; object-src 'self'",
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/",
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ]
 }
