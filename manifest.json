@@ -30,7 +30,7 @@
   ],
 
   "manifest_version": 2,
-  "content_security_policy":"script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js; object-src 'self'",
+  "content_security_policy":"script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css; object-src 'self'",
   "permissions": [
     "activeTab",
     "https://ajax.googleapis.com/",
