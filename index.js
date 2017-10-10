@@ -16,5 +16,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    $('#clear-al-names').off().on('click',function(){
+        chrome.tabs.query({}, function(tabs) {
+            var message = {toggleAlNames: true};
+            for (var i=0; i<tabs.length; ++i) {
+                chrome.tabs.sendMessage(tabs[i].id, message);
+            }
+        });
+    });
+    $('#clear-al-photos').off().on('click',function(){
+        chrome.tabs.query({}, function(tabs) {
+            var message = {toggleAlPhotos: true};
+            for (var i=0; i<tabs.length; ++i) {
+                chrome.tabs.sendMessage(tabs[i].id, message);
+            }
+        });
+    });
 });
 
