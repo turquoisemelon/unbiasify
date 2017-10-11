@@ -28,10 +28,11 @@ cursor: pointer;
 display: block;
 position: relative;
 box-shadow: inset 0 0 0px 1px #d5d5d5;
-text-indent: 41px;
+text-indent: 48px;
 height: 20px; width: 40px;
 border-radius: 10px;
 white-space: nowrap;
+font-size: 10px;
 }
 
 .toggle-input + label:before {
