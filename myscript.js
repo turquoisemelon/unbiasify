@@ -67,6 +67,7 @@ function clearAlNames() {
 }
 
 function clearAlPhotos() {
+    
     var prevStyle = document.getElementById('BIAS_ANGELLIST_PHOTOS');
     if (prevStyle) {
         prevStyle.parentNode.removeChild(prevStyle);
@@ -93,6 +94,9 @@ function clearAlPhotos() {
 }
 
 function clearPhotos() {
+    if (window.location.href.indexOf('linkedin.com') == -1) {
+        return;
+    }
     var prevStyle = document.getElementById('BIAS_LINKEDIN');
     
             if (prevStyle) {
