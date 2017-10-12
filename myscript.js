@@ -1,41 +1,37 @@
-var togglePhotos =  false;
-var toggleNames = false;
-var toggleAlPhotos = false;
-var toggleAlNames = false;
+var togglePhotos =  true;
+var toggleNames = true;
+var toggleAlPhotos = true;
+var toggleAlNames = true;
 
+clearPhotos()
+clearNames()
+clearAlPhotos()
+clearAlNames()
 chrome.storage.sync.get('togglePhotos', function(data) {
-    togglePhotos = data.togglePhotos;
-    if (togglePhotos) {
-        clearPhotos()
-    }
+    togglePhotos = data.togglePhotos || false;
+    clearPhotos()
 });
 
 chrome.storage.sync.get('toggleNames', function(data) {
-    toggleNames = data.toggleNames;
-    if (toggleNames)  {
-        clearNames()
-    }
+    toggleNames = data.toggleNames || false;
+    clearNames()
 });
 
 chrome.storage.sync.get('toggleAlNames', function(data) {
-    toggleAlNames = data.toggleAlNames;
-    if (toggleAlNames)  {
-        clearAlNames()
-    }
+    toggleAlNames = data.toggleAlNames || false;
+    clearAlNames()
 });
 
 chrome.storage.sync.get('toggleAlPhotos', function(data) {
-    toggleAlPhotos = data.toggleAlPhotos;
-    if (toggleAlPhotos)  {
-        clearAlPhotos()
-    }
+    toggleAlPhotos = data.toggleAlPhotos || false;
+    clearAlPhotos()
 });
 
 function clearAlNames() {
     var prevStyle = document.getElementById('BIAS_ANGELLIST_NAMES');
-    if (prevStyle) {
+    if (!toggleAlNames) {
         prevStyle.parentNode.removeChild(prevStyle);
-      } else {
+      } else if (!prevStyle && toggleAlNames){
         const style = document.createElement('style');
         style.id = 'BIAS_ANGELLIST_NAMES';
 
@@ -69,9 +65,9 @@ function clearAlNames() {
 function clearAlPhotos() {
     
     var prevStyle = document.getElementById('BIAS_ANGELLIST_PHOTOS');
-    if (prevStyle) {
+    if (!toggleAlPhotos) {
         prevStyle.parentNode.removeChild(prevStyle);
-      } else {
+      } else if (toggleAlPhotos && !prevStyle) {
         const style = document.createElement('style');
         style.id = 'BIAS_ANGELLIST_PHOTOS';
 
@@ -99,9 +95,9 @@ function clearPhotos() {
     }
     var prevStyle = document.getElementById('BIAS_LINKEDIN');
     
-            if (prevStyle) {
+            if (!togglePhotos) {
               prevStyle.parentNode.removeChild(prevStyle);
-            } else {
+            } else if (togglePhotos && !prevStyle) {
               const style = document.createElement('style');
               style.id = 'BIAS_LINKEDIN';
     
@@ -128,9 +124,9 @@ function clearPhotos() {
 }
 function clearNames() {
     var prevStyle = document.getElementById('BIAS_NAMES_LINKEDIN');
-              if (prevStyle) {
+              if (!toggleNames) {
                 prevStyle.parentNode.removeChild(prevStyle);
-              } else {
+              } else if (toggleNames && !prevStyle) {
                 const style = document.createElement('style');
                 style.id = 'BIAS_NAMES_LINKEDIN';
     
