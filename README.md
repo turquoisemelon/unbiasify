@@ -8,9 +8,6 @@ If you'd just like access to the tool, you can install it over at the chrome sto
 
 # How to use
 
-## Linkedin
-Linkedin is currently the main use for unbiasify - and it's super simple to get started. 
-
 After you have installed the extension you should be able to see a little unbiasify in your extensions list beside your address bar
 
 <img src="icon.png" height="25">
@@ -19,6 +16,11 @@ Next; all you have to do is go to linked in and click that icon. Depending on wh
 
 <img src="assets/unbiasify.gif" height="400">
 
+
+# Supported Sites
+
+* Linkedin -- free version only
+* Angellist
 
 # Local Installation Steps
 
