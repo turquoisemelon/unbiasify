@@ -2,11 +2,16 @@ var togglePhotos =  true;
 var toggleNames = true;
 var toggleAlPhotos = true;
 var toggleAlNames = true;
+var toggleTwitterPhotos = true;
+var toggleTwitterNames = true;
 
 clearPhotos()
 clearNames()
 clearAlPhotos()
 clearAlNames()
+clearTwitterPhotos()
+clearTwitterNames()
+
 chrome.storage.sync.get('togglePhotos', function(data) {
     togglePhotos = data.togglePhotos || false;
     clearPhotos()
@@ -25,6 +30,16 @@ chrome.storage.sync.get('toggleAlNames', function(data) {
 chrome.storage.sync.get('toggleAlPhotos', function(data) {
     toggleAlPhotos = data.toggleAlPhotos || false;
     clearAlPhotos()
+});
+
+chrome.storage.sync.get('toggleTwitterNames', function(data) {
+    toggleTwitterNames = data.toggleTwitterNames || false;
+    clearTwitterNames()
+});
+
+chrome.storage.sync.get('toggleTwitterPhotos', function(data) {
+    toggleTwitterPhotos = data.toggleTwitterPhotos || false;
+    clearTwitterPhotos()
 });
 
 function clearAlNames() {
@@ -63,7 +78,7 @@ function clearAlNames() {
 }
 
 function clearAlPhotos() {
-    
+
     var prevStyle = document.getElementById('BIAS_ANGELLIST_PHOTOS');
     if (!toggleAlPhotos) {
         prevStyle.parentNode.removeChild(prevStyle);
@@ -82,7 +97,7 @@ function clearAlPhotos() {
           '.review img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;} ',
           '.qtip-content img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}'
         ];
-        
+
 
 
         obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
@@ -94,44 +109,47 @@ function clearPhotos() {
         return;
     }
     var prevStyle = document.getElementById('BIAS_LINKEDIN');
-    
+
             if (!togglePhotos) {
               prevStyle.parentNode.removeChild(prevStyle);
             } else if (togglePhotos && !prevStyle) {
               const style = document.createElement('style');
               style.id = 'BIAS_LINKEDIN';
-    
+
               document.body.appendChild(style);
-    
+
               const obfuscate = [
                 "span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * { color: black !important; background-color: black !important; }",
-    
+
                 "img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }",
-    
+
                 "#aux > div.insights > h3 { color: black !important; background-color: black !important; }",
-    
+
                 "#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
-    
+
                 "[id^='control_gen_'] > div.header > h3 { color: black !important; background-color: black !important; }",
-    
+
                 "[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
-    
+
                 "#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }"
               ];
-    
+
               obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
             }
 }
 function clearNames() {
+    if (window.location.href.indexOf('linkedin.com') == -1) {
+        return;
+    }
     var prevStyle = document.getElementById('BIAS_NAMES_LINKEDIN');
               if (!toggleNames) {
                 prevStyle.parentNode.removeChild(prevStyle);
               } else if (toggleNames && !prevStyle) {
                 const style = document.createElement('style');
                 style.id = 'BIAS_NAMES_LINKEDIN';
-    
+
                 document.body.appendChild(style);
-    
+
                 const nameObfuscate = [
                   '[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }',
                   '.neptune-grid > .launchpad__title { opacity: 0; }',
@@ -166,10 +184,83 @@ function clearNames() {
                   'span[class*="degree"]:before { content: "" !important; }',
                   'span[class*="degree"] { visibility: visible !important; }',
                 ];
-    
-    
+
+
                 nameObfuscate.forEach((r,i) => style.sheet.insertRule(r,i));
               }
+}
+
+function clearTwitterNames() {
+    if (window.location.href.indexOf('twitter.com') === -1) {
+        return;
+    }
+
+    var prevStyle = document.getElementById('BIAS_NAMES_TWITTER');
+    if (!toggleTwitterNames) {
+      prevStyle.parentNode.removeChild(prevStyle);
+    } else if (toggleTwitterNames) {
+
+        // This won't re-run on page change, meaning that if you go home
+        // then back to profile you'll get the users name as the title
+        document.title = "Twitter";
+
+        if (!prevStyle) {
+            var style = document.createElement('style');
+            style.id = 'BIAS_NAMES_TWITTER';
+
+            document.body.appendChild(style);
+
+            var rules = [
+              'strong.fullname.show-popup-with-id { visibility: hidden; }',
+              'strong.fullname.show-popup-with-id:before { content: "Link To Profile"; visibility: visible; }',
+              'span.username.u-dir { visibility: hidden; }',
+              '.ProfileNameTruncated-link { visibility: hidden; }',
+              '.ProfileNameTruncated-link:before { content: "Link To Profile"; visibility: visible; }',
+              '.ProfileHeaderCard-nameLink { visibility: hidden; }',
+              '.ProfileHeaderCard-nameLink:before { content: "Link To Profile", visibility: visible; }',
+              'span.NewTweetButton-text { visibility: hidden; }',
+              'span.ProfileHeaderCard-urlText > a { visibility: hidden; }',
+              '.js-retweet-text b { visibility: hidden; }',
+              '.js-retweet-text b:before { visibility: visible; content: "User"; }',
+              'div.tooltip { visibility: hidden; }',
+              '.js-recommended-followers .fullname { visibility: hidden; }',
+              '.js-recommended-followers .fullname:before { visibility: visible; content: "Link To Profile" }',
+              '.ActivityItem .fullname { visibility: hidden; }',
+              '.ActivityItem .fullname:before { visibility: visible; content: "Link To Profile" }',
+            ]
+
+            rules.forEach((r, i) => style.sheet.insertRule(r, i));
+        }
+    }
+}
+
+function clearTwitterPhotos() {
+    if (window.location.href.indexOf('twitter.com') === -1) {
+        return;
+    }
+
+    var styleId = 'BIAS_PHOTOS_TWITTER'
+    var prevStyle = document.getElementById(styleId);
+    if (!toggleTwitterPhotos && prevStyle) {
+        prevStyle.parentNode.removeChild(prevStyle);
+    } else if (toggleTwitterPhotos && !prevStyle) {
+        var style = document.createElement('style');
+        style.id = styleId;
+
+        document.body.appendChild(style);
+
+        var rules = [
+            'img.avatar.js-action-profile-avatar { visibility: hidden; }',
+            '.ProfileCard-bg { visibility: hidden; }',
+            '.ProfileCard-avatarImage.js-action-profile-avatar { visibility: hidden; }',
+            '.ProfileAvatar-image { visibility: hidden; }',
+            '.ProfileCanopy-headerBg > img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+            '.ProfileCardMini-avatarImage { visibility: hidden; }',
+            '.ActivityItem .avatar { visibility: hidden; }'
+        ]
+
+        rules.forEach((r, i) => style.sheet.insertRule(r, i));
+    }
 }
 
 chrome.runtime.onMessage.addListener(
@@ -178,11 +269,11 @@ chrome.runtime.onMessage.addListener(
             toggleNames = !toggleNames
             clearNames();
             chrome.storage.sync.set({toggleNames: toggleNames})
-        } 
+        }
         if (request.togglePhotos) {
-          togglePhotos = !togglePhotos
-          clearPhotos();
-          chrome.storage.sync.set({togglePhotos: togglePhotos})
+            togglePhotos = !togglePhotos
+            clearPhotos();
+            chrome.storage.sync.set({togglePhotos: togglePhotos})
         }
         if (request.toggleAlNames) {
             toggleAlNames = !toggleAlNames
@@ -194,5 +285,17 @@ chrome.runtime.onMessage.addListener(
             clearAlPhotos();
             chrome.storage.sync.set({toggleAlPhotos: toggleAlPhotos})
         }
-    });
+
+        if (request.toggleTwitterPhotos) {
+            toggleTwitterPhotos = !toggleTwitterPhotos
+            clearTwitterPhotos();
+            chrome.storage.sync.set({ toggleTwitterPhotos: toggleTwitterPhotos })
+        }
+
+        if (request.toggleTwitterNames) {
+            toggleTwitterNames = !toggleTwitterNames
+            clearTwitterNames();
+            chrome.storage.sync.set({ toggleTwitterNames: toggleTwitterNames })
+        }
+});
 
