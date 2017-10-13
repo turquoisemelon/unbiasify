@@ -153,32 +153,32 @@ function clearPhotos(togglePhotos) {
     }
     var prevStyle = document.getElementById('BIAS_LINKEDIN');
 
-            if (!togglePhotos) {
-              prevStyle.parentNode.removeChild(prevStyle);
-            } else if (togglePhotos && !prevStyle) {
-              const style = document.createElement('style');
-              style.id = 'BIAS_LINKEDIN';
+  if (!togglePhotos) {
+    prevStyle.parentNode.removeChild(prevStyle)
+  } else if (togglePhotos && !prevStyle) {
+    const style = document.createElement('style')
+    style.id = 'BIAS_LINKEDIN'
 
-              document.body.appendChild(style);
+    document.body.appendChild(style)
 
-              const obfuscate = [
-                "span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * { color: black !important; background-color: black !important; }",
+    const obfuscate = [
+      "span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * { color: black !important; background-color: black !important; }",
 
-                "img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }",
+      'img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
 
-                "#aux > div.insights > h3 { color: black !important; background-color: black !important; }",
+      '#aux > div.insights > h3 { color: black !important; background-color: black !important; }',
 
-                "#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
+      "#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
 
-                "[id^='control_gen_'] > div.header > h3 { color: black !important; background-color: black !important; }",
+      "[id^='control_gen_'] > div.header > h3 { color: black !important; background-color: black !important; }",
 
-                "[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
+      "[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
 
-                "#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }"
-              ];
+      "#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }",
+    ]
 
-              obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
-            }
+    obfuscate.forEach((r, i) => style.sheet.insertRule(r, i))
+  }
 }
 function clearNames(toggleNames) {
     if (window.location.href.indexOf('linkedin.com') == -1) {
@@ -329,4 +329,5 @@ chrome.runtime.onMessage.addListener(
                 break;
         }
 });
+
 
