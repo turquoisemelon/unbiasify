@@ -1,7 +1,4 @@
 
-var toggleTwitterPhotos = true;
-var toggleTwitterNames = true;
-
 const TOGGLE_LINKED_IN_PHOTOS = 'togglePhotos'
 const TOGGLE_LINKED_IN_NAMES = 'toggleNames'
 const TOGGLE_ANGELLIST_PHOTOS = 'toggleAlPhotos'
