@@ -1,7 +1,4 @@
-var togglePhotos =  true;
-var toggleNames = true;
-var toggleAlPhotos = true;
-var toggleAlNames = true;
+
 var toggleTwitterPhotos = true;
 var toggleTwitterNames = true;
 
@@ -14,89 +11,84 @@ const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
 
 var linkedinUpdater = (function () {
     var toggle = {}
-    toggle['photos'] = [false,clearPhotos]
-    toggle['names'] = [false,clearNames]
+    toggle['photos'] = [false,clearPhotos,TOGGLE_LINKED_IN_PHOTOS]
+    toggle['names'] = [false,clearNames,TOGGLE_LINKED_IN_NAMES]
 
-    return function(type,val) {
+    return function(type,isSet = false,val) {
         if (val != undefined) {
             toggle[type][0] = val;
         } else {
             toggle[type][0] = !toggle[type][0];
         }
-        toggle[type][1](toggle[type][0])
+        (toggle[type][1])(toggle[type][0])
+        if (isSet) {
+            chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
+        }
     }
 }());
 
 var angellistUpdater = (function () {
     var toggle = {}
-    toggle['photos'] = [false,clearAlPhotos]
-    toggle['names'] = [false,clearAlNames]
+    toggle['photos'] = [false,clearAlPhotos,TOGGLE_ANGELLIST_PHOTOS]
+    toggle['names'] = [false,clearAlNames,TOGGLE_ANGELLIST_NAMES]
 
-    return function(type,val) {
+    return function(type,isSet = false,val) {
         if (val != undefined) {
             toggle[type][0] = val;
         } else {
             toggle[type][0] = !toggle[type][0];
         }
-        toggle[type][1](toggle[type][0])
+        (toggle[type][1])(toggle[type][0])
+        if (isSet) {
+            chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
+        }
+
     }
 }());
 
 var twitterUpdater = (function () {
     var toggle = {}
-    toggle['photos'] = [false,clearTwitterPhotos]
-    toggle['names'] = [false,clearTwitterNames]
+    toggle['photos'] = [false,clearTwitterPhotos,TOGGLE_TWITTER_PHOTOS]
+    toggle['names'] = [false,clearTwitterNames,TOGGLE_TWITTER_NAMES]
 
-    return function(type,val) {
+    return function(type,isSet = false,val) {
         if (val != undefined) {
             toggle[type][0] = val;
         } else {
             toggle[type][0] = !toggle[type][0];
         }
-        toggle[type][1](toggle[type][0])
+        (toggle[type][1])(toggle[type][0])
+        if (isSet) {
+            chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
+        }
+       
     }
 }());
 
-linkedinUpdater('photos',true)
-linkedinUpdater('names',true)
-angellistUpdater('photos',true)
-angellistUpdater('names',true)
-twitterUpdater('photos',true)
-twitterUpdater('names',true)
+linkedinUpdater('photos',false,true)
+linkedinUpdater('names',false,true)
+angellistUpdater('photos',false,true)
+angellistUpdater('names',false,true)
+twitterUpdater('photos',false,true)
+twitterUpdater('names',false,true)
+
+getIntitialVal(TOGGLE_LINKED_IN_PHOTOS,linkedinUpdater,'photos')
+getIntitialVal(TOGGLE_LINKED_IN_NAMES,linkedinUpdater,'names')
+getIntitialVal(TOGGLE_ANGELLIST_PHOTOS,angellistUpdater,'photos')
+getIntitialVal(TOGGLE_ANGELLIST_NAMES,angellistUpdater,'names')
+getIntitialVal(TOGGLE_TWITTER_PHOTOS,twitterUpdater,'photos')
+getIntitialVal(TOGGLE_TWITTER_NAMES,twitterUpdater,'names')
 
 
-chrome.storage.sync.get('togglePhotos', function(data) {
-    togglePhotos = data.togglePhotos || false;
-    linkedinUpdater('photos',togglePhotos)
-});
-
-chrome.storage.sync.get('toggleNames', function(data) {
-    toggleNames = data.toggleNames || false;
-    linkedinUpdater('names',toggleNames)
-});
-
-chrome.storage.sync.get('toggleAlNames', function(data) {
-    toggleAlNames = data.toggleAlNames || false;
-    linkedinUpdater('names',toggleNames)
-});
-
-chrome.storage.sync.get('toggleAlPhotos', function(data) {
-    toggleAlPhotos = data.toggleAlPhotos || false;
-    clearAlPhotos()
-});
-
-chrome.storage.sync.get('toggleTwitterNames', function(data) {
-    toggleTwitterNames = data.toggleTwitterNames || false;
-    clearTwitterNames()
-});
-
-chrome.storage.sync.get('toggleTwitterPhotos', function(data) {
-    toggleTwitterPhotos = data.toggleTwitterPhotos || false;
-    clearTwitterPhotos()
-});
+function getIntitialVal(property,updaterFunction,type) {
+    chrome.storage.sync.get(property, function(data) {
+        val = data[property] || false;
+        updaterFunction(type,false,val)
+    });
+}
 
 
-function clearAlNames() {
+function clearAlNames(toggleAlNames) {
     var prevStyle = document.getElementById('BIAS_ANGELLIST_NAMES');
     if (!toggleAlNames) {
         prevStyle.parentNode.removeChild(prevStyle);
@@ -131,7 +123,7 @@ function clearAlNames() {
       }
 }
 
-function clearAlPhotos() {
+function clearAlPhotos(toggleAlPhotos) {
 
     var prevStyle = document.getElementById('BIAS_ANGELLIST_PHOTOS');
     if (!toggleAlPhotos) {
@@ -158,7 +150,7 @@ function clearAlPhotos() {
     }
 }
 
-function clearPhotos() {
+function clearPhotos(togglePhotos) {
     if (window.location.href.indexOf('linkedin.com') == -1) {
         return;
     }
@@ -191,7 +183,7 @@ function clearPhotos() {
               obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
             }
 }
-function clearNames() {
+function clearNames(toggleNames) {
     if (window.location.href.indexOf('linkedin.com') == -1) {
         return;
     }
@@ -244,7 +236,7 @@ function clearNames() {
               }
 }
 
-function clearTwitterNames() {
+function clearTwitterNames(toggleTwitterNames) {
     if (window.location.href.indexOf('twitter.com') === -1) {
         return;
     }
@@ -288,7 +280,7 @@ function clearTwitterNames() {
     }
 }
 
-function clearTwitterPhotos() {
+function clearTwitterPhotos(toggleTwitterPhotos) {
     if (window.location.href.indexOf('twitter.com') === -1) {
         return;
     }
@@ -320,36 +312,24 @@ function clearTwitterPhotos() {
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.toggleNames) {
-            toggleNames = !toggleNames
-            clearNames();
-            chrome.storage.sync.set({toggleNames: toggleNames})
+            linkedinUpdater('names',true)
         }
         if (request.togglePhotos) {
-            togglePhotos = !togglePhotos
-            clearPhotos();
-            chrome.storage.sync.set({togglePhotos: togglePhotos})
+            linkedinUpdater('photos',true)
         }
         if (request.toggleAlNames) {
-            toggleAlNames = !toggleAlNames
-            clearAlNames();
-            chrome.storage.sync.set({toggleAlNames: toggleAlNames})
+            angellistUpdater('names',true)
         }
         if (request.toggleAlPhotos) {
-            toggleAlPhotos = !toggleAlPhotos
-            clearAlPhotos();
-            chrome.storage.sync.set({toggleAlPhotos: toggleAlPhotos})
+            angellistUpdater('photos',true)
         }
 
         if (request.toggleTwitterPhotos) {
-            toggleTwitterPhotos = !toggleTwitterPhotos
-            clearTwitterPhotos();
-            chrome.storage.sync.set({ toggleTwitterPhotos: toggleTwitterPhotos })
+            twitterUpdater('photos',true)
         }
 
         if (request.toggleTwitterNames) {
-            toggleTwitterNames = !toggleTwitterNames
-            clearTwitterNames();
-            chrome.storage.sync.set({ toggleTwitterNames: toggleTwitterNames })
+            twitterUpdater('names',true)
         }
 });
 
