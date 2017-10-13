@@ -1,0 +1,31 @@
+{
+  "name": "unbiasify",
+  "version": "1.4.9",
+  "description":
+    "Unbiasify hides names and profile photos on social networks so you can focus on what actually matters when recruiting.",
+  "main": "index.js",
+  "dependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.7.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,css}": ["prettier --write", "git add"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unbiasify/unbiasify.git"
+  },
+  "author": "Unbiasify",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Unbiasify/unbiasify/issues"
+  },
+  "homepage": "https://github.com/Unbiasify/unbiasify#readme"
+}
