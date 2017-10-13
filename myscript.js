@@ -5,26 +5,79 @@ var toggleAlNames = true;
 var toggleTwitterPhotos = true;
 var toggleTwitterNames = true;
 
-clearPhotos()
-clearNames()
-clearAlPhotos()
-clearAlNames()
-clearTwitterPhotos()
-clearTwitterNames()
+const TOGGLE_LINKED_IN_PHOTOS = 'togglePhotos'
+const TOGGLE_LINKED_IN_NAMES = 'toggleNames'
+const TOGGLE_ANGELLIST_PHOTOS = 'toggleAlPhotos'
+const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
+const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
+const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
+
+var linkedinUpdater = (function () {
+    var toggle = {}
+    toggle['photos'] = [false,clearPhotos]
+    toggle['names'] = [false,clearNames]
+
+    return function(type,val) {
+        if (val != undefined) {
+            toggle[type][0] = val;
+        } else {
+            toggle[type][0] = !toggle[type][0];
+        }
+        toggle[type][1](toggle[type][0])
+    }
+}());
+
+var angellistUpdater = (function () {
+    var toggle = {}
+    toggle['photos'] = [false,clearAlPhotos]
+    toggle['names'] = [false,clearAlNames]
+
+    return function(type,val) {
+        if (val != undefined) {
+            toggle[type][0] = val;
+        } else {
+            toggle[type][0] = !toggle[type][0];
+        }
+        toggle[type][1](toggle[type][0])
+    }
+}());
+
+var twitterUpdater = (function () {
+    var toggle = {}
+    toggle['photos'] = [false,clearTwitterPhotos]
+    toggle['names'] = [false,clearTwitterNames]
+
+    return function(type,val) {
+        if (val != undefined) {
+            toggle[type][0] = val;
+        } else {
+            toggle[type][0] = !toggle[type][0];
+        }
+        toggle[type][1](toggle[type][0])
+    }
+}());
+
+linkedinUpdater('photos',true)
+linkedinUpdater('names',true)
+angellistUpdater('photos',true)
+angellistUpdater('names',true)
+twitterUpdater('photos',true)
+twitterUpdater('names',true)
+
 
 chrome.storage.sync.get('togglePhotos', function(data) {
     togglePhotos = data.togglePhotos || false;
-    clearPhotos()
+    linkedinUpdater('photos',togglePhotos)
 });
 
 chrome.storage.sync.get('toggleNames', function(data) {
     toggleNames = data.toggleNames || false;
-    clearNames()
+    linkedinUpdater('names',toggleNames)
 });
 
 chrome.storage.sync.get('toggleAlNames', function(data) {
     toggleAlNames = data.toggleAlNames || false;
-    clearAlNames()
+    linkedinUpdater('names',toggleNames)
 });
 
 chrome.storage.sync.get('toggleAlPhotos', function(data) {
@@ -41,6 +94,7 @@ chrome.storage.sync.get('toggleTwitterPhotos', function(data) {
     toggleTwitterPhotos = data.toggleTwitterPhotos || false;
     clearTwitterPhotos()
 });
+
 
 function clearAlNames() {
     var prevStyle = document.getElementById('BIAS_ANGELLIST_NAMES');
