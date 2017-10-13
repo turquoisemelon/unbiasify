@@ -308,25 +308,25 @@ function clearTwitterPhotos(toggleTwitterPhotos) {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        if (request.toggleNames) {
-            linkedinUpdater('names',true)
-        }
-        if (request.togglePhotos) {
-            linkedinUpdater('photos',true)
-        }
-        if (request.toggleAlNames) {
-            angellistUpdater('names',true)
-        }
-        if (request.toggleAlPhotos) {
-            angellistUpdater('photos',true)
-        }
-
-        if (request.toggleTwitterPhotos) {
-            twitterUpdater('photos',true)
-        }
-
-        if (request.toggleTwitterNames) {
-            twitterUpdater('names',true)
+        switch (true) {
+            case request.toggleNames:
+                linkedinUpdater('names',true);
+                break;
+            case request.togglePhotos:
+                linkedinUpdater('photos',true);
+                break;
+            case request.toggleAlNames:
+                angellistUpdater('names',true)
+                break;
+            case request.toggleAlPhotos:
+                angellistUpdater('photos',true)
+                break;
+            case request.toggleTwitterNames:
+                twitterUpdater('names',true)
+                break;
+            case request.toggleTwitterPhotos:
+                twitterUpdater('photos',true)
+                break;
         }
 });
 
