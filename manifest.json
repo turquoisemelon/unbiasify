@@ -1,8 +1,7 @@
 {
   "name": "Unbiasify",
-  "description":
-    "Unbiasify hides names and profile photos on various professional networking sites. So you can focus on what really matters; people's skills and experiences.",
-  "version": "1.3",
+  "description":"Unbiasify hides names and profile photos on social networks so you can focus on what actually matters when recruiting.",
+  "version": "1.4",
 
   "background": {
     "persistent": false,
