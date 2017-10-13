@@ -6,123 +6,61 @@ document.addEventListener('DOMContentLoaded', function() {
   var $clearTwitterPhotos = $('#clear-twitter-photos')
   var $clearTwitterNames = $('#clear-twitter-names')
 
-  chrome.storage.sync.get('togglePhotos', function(data) {
-    togglePhotos = data.togglePhotos
-    if (togglePhotos) {
-      $clearLinkedInPhotos.prop('checked', true)
-    } else {
-      $clearLinkedInPhotos.prop('checked', false)
-    }
-  })
+  const TOGGLE_LINKED_IN_PHOTOS = 'togglePhotos'
+  const TOGGLE_LINKED_IN_NAMES = 'toggleNames'
+  const TOGGLE_ANGELLIST_PHOTOS = 'toggleAlPhotos'
+  const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
+  const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
+  const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
 
-  chrome.storage.sync.get('toggleNames', function(data) {
-    toggleNames = data.toggleNames
-    if (toggleNames) {
-      $clearLinkedInNames.prop('checked', true)
-    } else {
-      $clearLinkedInNames.prop('checked', false)
-    }
-  })
+  setInitialValues(TOGGLE_LINKED_IN_PHOTOS,$clearLinkedInPhotos)
+  setInitialValues(TOGGLE_LINKED_IN_NAMES,$clearLinkedInNames)
+  setInitialValues(TOGGLE_ANGELLIST_PHOTOS,$clearAlPhotos)
+  setInitialValues(TOGGLE_ANGELLIST_NAMES,$clearAlNames)
+  setInitialValues(TOGGLE_TWITTER_PHOTOS,$clearTwitterPhotos)
+  setInitialValues(TOGGLE_TWITTER_NAMES,$clearTwitterNames)
+  
 
-  chrome.storage.sync.get('toggleAlNames', function(data) {
-    toggleAlNames = data.toggleAlNames
-    if (toggleAlNames) {
-      $clearAlNames.prop('checked', true)
-    } else {
-      $clearAlNames.prop('checked', false)
-    }
-  })
+  $clearLinkedInPhotos.off().on('change',function(){
+    sendMessage({togglePhotos:true})
+  });
 
-  chrome.storage.sync.get('toggleAlPhotos', function(data) {
-    toggleAlPhotos = data.toggleAlPhotos
-    if (toggleAlPhotos) {
-      $clearAlPhotos.prop('checked', true)
-    } else {
-      $clearAlPhotos.prop('checked', false)
-    }
-  })
+  $clearLinkedInNames.off().on('change',function(){
+    sendMessage({toggleNames:true})
+  });
 
-  chrome.storage.sync.get('toggleTwitterNames', function(data) {
-    toggleTwitterNames = data.toggleTwitterNames
-    if (toggleTwitterNames) {
-      $clearTwitterNames.prop('checked', true)
-    } else {
-      $clearTwitterNames.prop('checked', false)
-    }
-  })
+  $clearAlPhotos.off().on('change',function(){
+    sendMessage({toggleAlPhotos:true})
+  });
 
-  chrome.storage.sync.get('toggleTwitterPhotos', function(data) {
-    toggleTwitterPhotos = data.toggleTwitterPhotos
-    if (toggleTwitterPhotos) {
-      $clearTwitterPhotos.prop('checked', true)
-    } else {
-      $clearTwitterPhotos.prop('checked', false)
-    }
-  })
+  $clearAlNames.off().on('change',function(){
+    sendMessage({toggleAlNames:true})
+  });
+  
+  $clearTwitterNames.off().on('change',function(){
+    sendMessage({toggleTwitterNames:true})
+  });
 
-  $('#clear-photos')
-    .off()
-    .on('change', function() {
-      chrome.tabs.query({}, function(tabs) {
-        var message = { togglePhotos: true }
-        for (var i = 0; i < tabs.length; ++i) {
-          chrome.tabs.sendMessage(tabs[i].id, message)
-        }
-      })
-    })
+  $clearTwitterPhotos.off().on('change',function(){
+    sendMessage({toggleTwitterPhotos:true})
+  });
 
-  $('#clear-names')
-    .off()
-    .on('change', function() {
-      chrome.tabs.query({}, function(tabs) {
-        var message = { toggleNames: true }
-        for (var i = 0; i < tabs.length; ++i) {
-          chrome.tabs.sendMessage(tabs[i].id, message)
-        }
-      })
-    })
+  function sendMessage(message) {
+    chrome.tabs.query({}, function(tabs) {
+      for (var i=0; i < tabs.length; i++) {
+        chrome.tabs.sendMessage(tabs[i].id, message);
+      }
+    }) 
+  }
+  function setInitialValues(identifier, toggleInput) {
+    chrome.storage.sync.get(identifier, function(data) {
+      val = data[identifier];
+      if (val) {
+          toggleInput.prop('checked',true)
+      } else {
+          toggleInput.prop('checked',false)
+      }
+    });
+  }
+});
 
-  $('#clear-al-names')
-    .off()
-    .on('change', function() {
-      chrome.tabs.query({}, function(tabs) {
-        var message = { toggleAlNames: true }
-        for (var i = 0; i < tabs.length; ++i) {
-          chrome.tabs.sendMessage(tabs[i].id, message)
-        }
-      })
-    })
-
-  $('#clear-al-photos')
-    .off()
-    .on('change', function() {
-      chrome.tabs.query({}, function(tabs) {
-        var message = { toggleAlPhotos: true }
-        for (var i = 0; i < tabs.length; ++i) {
-          chrome.tabs.sendMessage(tabs[i].id, message)
-        }
-      })
-    })
-
-  $('#clear-twitter-names')
-    .off()
-    .on('change', function() {
-      chrome.tabs.query({}, function(tabs) {
-        var message = { toggleTwitterNames: true }
-        for (var i = 0; i < tabs.length; i++) {
-          chrome.tabs.sendMessage(tabs[i].id, message)
-        }
-      })
-    })
-
-  $('#clear-twitter-photos')
-    .off()
-    .on('change', function() {
-      chrome.tabs.query({}, function(tabs) {
-        var message = { toggleTwitterPhotos: true }
-        for (var i = 0; i < tabs.length; i++) {
-          chrome.tabs.sendMessage(tabs[i].id, message)
-        }
-      })
-    })
-})
