@@ -10,6 +10,9 @@ var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOT
 var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
 
+
+
+
 function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
     
     return function() {
@@ -47,6 +50,34 @@ getIntitialVal(TOGGLE_ANGELLIST_PHOTOS,angellistUpdater,'photos')
 getIntitialVal(TOGGLE_ANGELLIST_NAMES,angellistUpdater,'names')
 getIntitialVal(TOGGLE_TWITTER_PHOTOS,twitterUpdater,'photos')
 getIntitialVal(TOGGLE_TWITTER_NAMES,twitterUpdater,'names')
+
+$(document).keydown(function(e){
+    var ctrlKey = e.ctrlKey || e.metaKey;
+    var shiftKey = e.shiftKey;
+    var linkedIn = [e.which == '49',e.which == '50'] // 1 and 2
+    var angelList = [e.which == '53',e.which == '54'] // 5 and 6
+    var twitter = [e.which == '55',e.which == '56'] // 7 and 8
+ 
+    if(ctrlKey && shiftKey){ 
+        if (linkedIn[0]) {
+            linkedinUpdater('names',true)
+        } else if (linkedIn[1]) {
+            linkedinUpdater('photos',true)
+        }
+
+        if (angelList[0]) {
+            angellistUpdater('names',true) 
+        } else if (angelList[1]) {
+            angellistUpdater('photos',true)  
+        }
+
+        if (twitter[0]) {
+            twitterUpdater('names',true) 
+        } else if (twitter[1]) {
+            twitterUpdater('photos44',true) 
+        }
+    }
+}); 
 
 
 function getIntitialVal(property,updaterFunction,type) {
