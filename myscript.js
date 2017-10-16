@@ -6,61 +6,33 @@ const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
 const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
 const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
 
-var linkedinUpdater = (function () {
-    var toggle = {}
-    toggle['photos'] = [false,clearPhotos,TOGGLE_LINKED_IN_PHOTOS]
-    toggle['names'] = [false,clearNames,TOGGLE_LINKED_IN_NAMES]
+var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOTOS, TOGGLE_LINKED_IN_NAMES)();
+var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
+var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
 
-    return function(type,isSet = false,val) {
-        if (val != undefined) {
-            toggle[type][0] = val;
-        } else {
-            toggle[type][0] = !toggle[type][0];
-        }
-        (toggle[type][1])(toggle[type][0])
-        if (isSet) {
-            chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
-        }
+function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
+    
+    return function() {
+        let toggle = {};
+        toggle['photos'] = [false, photoFunc, photoIdentifier];
+        toggle['names'] = [false, nameFunc, nameIdentifier];
+
+        return function(type, isSet = false, val){
+            if (val != undefined) {
+                toggle[type][0] = val;
+            } else {
+                toggle[type][0] = !toggle[type][0];
+            }
+            (toggle[type][1])(toggle[type][0])
+            if (isSet) {
+                chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
+            }
+            
+        };
     }
-}());
+}
 
-var angellistUpdater = (function () {
-    var toggle = {}
-    toggle['photos'] = [false,clearAlPhotos,TOGGLE_ANGELLIST_PHOTOS]
-    toggle['names'] = [false,clearAlNames,TOGGLE_ANGELLIST_NAMES]
 
-    return function(type,isSet = false,val) {
-        if (val != undefined) {
-            toggle[type][0] = val;
-        } else {
-            toggle[type][0] = !toggle[type][0];
-        }
-        (toggle[type][1])(toggle[type][0])
-        if (isSet) {
-            chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
-        }
-
-    }
-}());
-
-var twitterUpdater = (function () {
-    var toggle = {}
-    toggle['photos'] = [false,clearTwitterPhotos,TOGGLE_TWITTER_PHOTOS]
-    toggle['names'] = [false,clearTwitterNames,TOGGLE_TWITTER_NAMES]
-
-    return function(type,isSet = false,val) {
-        if (val != undefined) {
-            toggle[type][0] = val;
-        } else {
-            toggle[type][0] = !toggle[type][0];
-        }
-        (toggle[type][1])(toggle[type][0])
-        if (isSet) {
-            chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
-        }
-       
-    }
-}());
 
 linkedinUpdater('photos',false,true)
 linkedinUpdater('names',false,true)
