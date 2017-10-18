@@ -10,7 +10,22 @@ var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOT
 var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
 
+changeAll = (isSet = false, val = true)  => {
+    linkedinUpdater('photos',isSet,val)
+    linkedinUpdater('names',isSet,val)
+    angellistUpdater('photos',isSet,val)
+    angellistUpdater('names',isSet,val)
+    twitterUpdater('photos',isSet,val)
+    twitterUpdater('names',isSet,val)
+}
 
+var toggleAll = function()  {
+    var toggleAll = false;
+    return () => {
+        toggleAll = !toggleAll;
+        changeAll(true,toggleAll)
+    }
+}()
 
 
 function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
@@ -37,12 +52,8 @@ function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
 
 
 
-linkedinUpdater('photos',false,true)
-linkedinUpdater('names',false,true)
-angellistUpdater('photos',false,true)
-angellistUpdater('names',false,true)
-twitterUpdater('photos',false,true)
-twitterUpdater('names',false,true)
+
+changeAll();
 
 getIntitialVal(TOGGLE_LINKED_IN_PHOTOS,linkedinUpdater,'photos')
 getIntitialVal(TOGGLE_LINKED_IN_NAMES,linkedinUpdater,'names')
@@ -54,31 +65,12 @@ getIntitialVal(TOGGLE_TWITTER_NAMES,twitterUpdater,'names')
 $(document).keydown(function(e){
     var ctrlKey = e.ctrlKey || e.metaKey;
     var shiftKey = e.shiftKey;
-    var linkedIn = [e.which == '49',e.which == '50'] // 1 and 2
-    var angelList = [e.which == '53',e.which == '54'] // 5 and 6
-    var twitter = [e.which == '55',e.which == '56'] // 7 and 8
- 
-    if(ctrlKey && shiftKey){ 
-        if (linkedIn[0]) {
-            linkedinUpdater('names',true)
-        } else if (linkedIn[1]) {
-            linkedinUpdater('photos',true)
-        }
+    var semiColon = e.which === 186;
 
-        if (angelList[0]) {
-            angellistUpdater('names',true) 
-        } else if (angelList[1]) {
-            angellistUpdater('photos',true)  
-        }
-
-        if (twitter[0]) {
-            twitterUpdater('names',true) 
-        } else if (twitter[1]) {
-            twitterUpdater('photos44',true) 
-        }
+    if(ctrlKey && shiftKey && semiColon){ 
+        toggleAll();
     }
 }); 
-
 
 function getIntitialVal(property,updaterFunction,type) {
     chrome.storage.sync.get(property, function(data) {
