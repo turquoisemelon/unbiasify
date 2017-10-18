@@ -10,6 +10,24 @@ var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOT
 var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
 
+changeAll = (isSet = false, val = true)  => {
+    linkedinUpdater('photos',isSet,val)
+    linkedinUpdater('names',isSet,val)
+    angellistUpdater('photos',isSet,val)
+    angellistUpdater('names',isSet,val)
+    twitterUpdater('photos',isSet,val)
+    twitterUpdater('names',isSet,val)
+}
+
+var toggleAll = function()  {
+    var toggleAll = false;
+    return () => {
+        toggleAll = !toggleAll;
+        changeAll(true,toggleAll)
+    }
+}()
+
+
 function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
     
     return function() {
@@ -34,12 +52,8 @@ function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
 
 
 
-linkedinUpdater('photos',false,true)
-linkedinUpdater('names',false,true)
-angellistUpdater('photos',false,true)
-angellistUpdater('names',false,true)
-twitterUpdater('photos',false,true)
-twitterUpdater('names',false,true)
+
+changeAll();
 
 getIntitialVal(TOGGLE_LINKED_IN_PHOTOS,linkedinUpdater,'photos')
 getIntitialVal(TOGGLE_LINKED_IN_NAMES,linkedinUpdater,'names')
@@ -48,6 +62,15 @@ getIntitialVal(TOGGLE_ANGELLIST_NAMES,angellistUpdater,'names')
 getIntitialVal(TOGGLE_TWITTER_PHOTOS,twitterUpdater,'photos')
 getIntitialVal(TOGGLE_TWITTER_NAMES,twitterUpdater,'names')
 
+$(document).keydown(function(e){
+    var ctrlKey = e.ctrlKey || e.metaKey;
+    var shiftKey = e.shiftKey;
+    var semiColon = e.which === 186;
+
+    if(ctrlKey && shiftKey && semiColon){ 
+        toggleAll();
+    }
+}); 
 
 function getIntitialVal(property,updaterFunction,type) {
     chrome.storage.sync.get(property, function(data) {
