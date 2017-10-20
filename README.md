@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Unbiasify/unbiasify.svg?branch=master)](https://travis-ci.org/Unbiasify/unbiasify.svg?branch=master)
+[![Build Status](https://travis-ci.org/Unbiasify/unbiasify.svg?branch=master)](https://travis-ci.org/Unbiasify/unbiasify)
 # Welcome to Unbiasify
 Unbiasify is a tool to help reduce the amount of unconscious bias that people face when perusing many aspects of the internet.
 
