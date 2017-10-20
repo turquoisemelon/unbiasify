@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - "6"
+cache:
+  directories:
+  - node_modules
+notifications:
+  email: false
+before_deploy:
+  # This is where we run our script to increment manifest/run tests
+  # Something along the lines of `npm run predeploy`
+deploy:
+  # In the future, we can set this up to auto generate our extensions, and potentially auto publish
+  provider: script
+  skip_cleanup: true
+  on:
+    branch: master
+branches:
+  only:
+  - master
