@@ -159,6 +159,8 @@ function clearPhotos(togglePhotos) {
     const obfuscate = [
       "span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * { color: black !important; background-color: black !important; }",
 
+      '.pv-top-card-section__profile-photo-container .pv-top-card-section__image { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+
       'img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
 
       '#aux > div.insights > h3 { color: black !important; background-color: black !important; }',
