@@ -15,3 +15,8 @@ echo $MANIFEST_VERSION
 
 sed -i "s@$(echo $MANIFEST_VERSION | sed 's/\./\\./g')@$(echo $PACKAGE_VERSION | sed 's/\./\\./g')@g" manifest.json
 
+git checkout -b temp
+git checkout -B master temp
+git add .
+git commit -m update-manifest-version
+git push
