@@ -13,7 +13,7 @@ MANIFEST_VERSION=$(cat manifest.json \
 echo $PACKAGE_VERSION
 echo $MANIFEST_VERSION
 
-sed -i '' "s@$(echo $MANIFEST_VERSION | sed 's/\./\\./g')@$(echo $PACKAGE_VERSION | sed 's/\./\\./g')@g" manifest.json
+sed -i "s@$(echo $MANIFEST_VERSION | sed 's/\./\\./g')@$(echo $PACKAGE_VERSION | sed 's/\./\\./g')@g" manifest.json
 
 git add .
 git commit -m update-manifest-version
