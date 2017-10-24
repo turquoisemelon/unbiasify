@@ -2,7 +2,7 @@
   "name": "Unbiasify",
   "description":
     "Unbiasify hides names and profile photos on social networks so you can focus on what actually matters when recruiting.",
-  "version": "1.6.0",
+  "version": "1.6.1",
 
   "background": {
     "persistent": false,

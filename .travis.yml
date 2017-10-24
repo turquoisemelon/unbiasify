@@ -6,15 +6,14 @@ cache:
   - node_modules
 notifications:
   email: false
-before_deploy:
-  # This is where we run our script to increment manifest/run tests
-  # Something along the lines of `npm run predeploy`
+before_install:
+  # Update package.json semver based on the git tag we just created
+  - npm version minor
+  # TODO -- execute a script to update manifest based on version val in package.json
 deploy:
-  # In the future, we can set this up to auto generate our extensions, and potentially auto publish
   provider: script
-  script: chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh
   skip_cleanup: true
-  overwrite: true
+  script: git push
   on:
     branch: master
 branches:
