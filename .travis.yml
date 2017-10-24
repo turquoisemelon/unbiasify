@@ -12,7 +12,7 @@ before_deploy:
 deploy:
   # In the future, we can set this up to auto generate our extensions, and potentially auto publish
   provider: script
-  script: ./scripts/deploy.sh
+  script: chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh
   skip_cleanup: true
   on:
     branch: master
