@@ -14,6 +14,7 @@ deploy:
   provider: script
   script: chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh
   skip_cleanup: true
+  overwrite: true
   on:
     branch: master
 branches:
