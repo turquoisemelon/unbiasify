@@ -17,3 +17,4 @@ sed -i '' "s@$(echo $MANIFEST_VERSION | sed 's/\./\\./g')@$(echo $PACKAGE_VERSIO
 
 git add .
 git commit -m update-manifest-version
+git push
