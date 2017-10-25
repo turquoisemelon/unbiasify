@@ -23,4 +23,4 @@ git commit -m update-manifest-version
 
 git remote add origin-update https://${GH_TOKEN}@github.com/Unbiasify/unbiasify.git
 git push --set-upstream origin-update master
-
+git push
