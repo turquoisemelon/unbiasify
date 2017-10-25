@@ -52,7 +52,6 @@ Assuming everything has gone well, you should now have Unbiasify listed in your 
 <img src="assets/extensionSuccess.png" height="100">
 
 
-
 # Contribution guidelines
 On the way
 
