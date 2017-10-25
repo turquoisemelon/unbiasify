@@ -1,4 +1,4 @@
-npm version minor
+npm version patch
 
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
