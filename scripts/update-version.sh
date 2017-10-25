@@ -12,7 +12,7 @@ MANIFEST_VERSION=$(cat manifest.json \
 
 echo $PACKAGE_VERSION
 echo $MANIFEST_VERSION
-git co master
+git checkout master
 sed -i "s@$(echo $MANIFEST_VERSION | sed 's/\./\\./g')@$(echo $PACKAGE_VERSION | sed 's/\./\\./g')@g" manifest.json
 
 git config --global user.email "travis@travis-ci.org"
