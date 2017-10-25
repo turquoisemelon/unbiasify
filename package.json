@@ -1,6 +1,6 @@
 {
   "name": "unbiasify",
-  "version": "1.7.9",
+  "version": "1.7.10",
   "description": "Unbiasify hides names and profile photos on social networks so you can focus on what actually matters when recruiting.",
   "main": "index.js",
   "dependencies": {
