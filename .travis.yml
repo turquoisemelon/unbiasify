@@ -9,7 +9,7 @@ notifications:
 deploy:
   provider: script
   skip_cleanup: true
-  script: npm version minor && sh ./scripts/update-version.sh && git add . && git commit -m update-manifest-version && git push
+  script: npm version minor && sh ./scripts/update-version.sh
   on:
     branch: master
 branches:
