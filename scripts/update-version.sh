@@ -19,5 +19,5 @@ git add .
 git commit -m update-manifest-version
 
 git remote add origin-update https://${GH_TOKEN}@github.com/Unbiasify/unbiasify.git > /dev/null 2>&1
-git push --quiet --set-upstream origin-pages gh-pages 
+git push --quiet --set-upstream origin-update master
 
