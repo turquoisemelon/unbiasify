@@ -1,8 +1,7 @@
 {
   "name": "unbiasify",
-  "version": "1.7.0",
-  "description":
-    "Unbiasify hides names and profile photos on social networks so you can focus on what actually matters when recruiting.",
+  "version": "1.7.1",
+  "description": "Unbiasify hides names and profile photos on social networks so you can focus on what actually matters when recruiting.",
   "main": "index.js",
   "dependencies": {
     "husky": "^0.14.3",
@@ -16,7 +15,10 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,json,css}": ["prettier --write", "git add"]
+    "*.{js,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
