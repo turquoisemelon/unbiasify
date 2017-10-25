@@ -1,3 +1,5 @@
+npm version minor
+
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
   | head -1 \
