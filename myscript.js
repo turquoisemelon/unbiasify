@@ -300,7 +300,8 @@ function clearTwitterPhotos(toggleTwitterPhotos) {
             '.ProfileCardMini-avatarImage { visibility: hidden; }',
             '.ActivityItem .avatar { visibility: hidden; }',
             '.js-profile-popup-actionable .avatar { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;  }',
-            '.ActivityItem-displayText strong { visibility: hidden; }'
+            '.ActivityItem-displayText strong { visibility: hidden; }',
+            '.tweet-content .QuoteTweet-originalAuthor {visibility: hidden;} '
         ]
 
         rules.forEach((r, i) => style.sheet.insertRule(r, i));
