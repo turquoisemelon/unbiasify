@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var $clearAlNames = $('#clear-al-names')
   var $clearTwitterPhotos = $('#clear-twitter-photos')
   var $clearTwitterNames = $('#clear-twitter-names')
+  var $clearFacebookPhotos = $('#clear-facebook-photos')
+  var $clearFacebookNames = $('#clear-facebook-names')
 
   const TOGGLE_LINKED_IN_PHOTOS = 'togglePhotos'
   const TOGGLE_LINKED_IN_NAMES = 'toggleNames'
@@ -12,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
   const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
   const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
+  const TOGGLE_FACEBOOK_PHOTOS = 'toggleFacebookPhotos'
+  const TOGGLE_FACEBOOK_NAMES = 'toggleFacebookNames'
 
   setInitialValues(TOGGLE_LINKED_IN_PHOTOS,$clearLinkedInPhotos)
   setInitialValues(TOGGLE_LINKED_IN_NAMES,$clearLinkedInNames)
@@ -19,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
   setInitialValues(TOGGLE_ANGELLIST_NAMES,$clearAlNames)
   setInitialValues(TOGGLE_TWITTER_PHOTOS,$clearTwitterPhotos)
   setInitialValues(TOGGLE_TWITTER_NAMES,$clearTwitterNames)
-  
+  setInitialValues(TOGGLE_FACEBOOK_PHOTOS,$clearFacebookPhotos)
+  setInitialValues(TOGGLE_FACEBOOK_NAMES,$clearFacebookNames)
+
 
   $clearLinkedInPhotos.off().on('change',function(){
     sendMessage({togglePhotos:true})
@@ -36,13 +42,21 @@ document.addEventListener('DOMContentLoaded', function() {
   $clearAlNames.off().on('change',function(){
     sendMessage({toggleAlNames:true})
   });
-  
+
   $clearTwitterNames.off().on('change',function(){
     sendMessage({toggleTwitterNames:true})
   });
 
   $clearTwitterPhotos.off().on('change',function(){
     sendMessage({toggleTwitterPhotos:true})
+  });
+
+  $clearFacebookNames.off().on('change',function(){
+    sendMessage({toggleFacebookNames:true})
+  });
+
+  $clearFacebookPhotos.off().on('change',function(){
+    sendMessage({toggleFacebookPhotos:true})
   });
 
   function sendMessage(message) {

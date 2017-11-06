@@ -5,10 +5,13 @@ const TOGGLE_ANGELLIST_PHOTOS = 'toggleAlPhotos'
 const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
 const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
 const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
+const TOGGLE_FACEBOOK_PHOTOS = 'toggleFacebookPhotos'
+const TOGGLE_FACEBOOK_NAMES = 'toggleFacebookNames'
 
 var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOTOS, TOGGLE_LINKED_IN_NAMES)();
 var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
+var facebookUpdater = createModel(clearFacebookPhotos, clearFacebookNames, TOGGLE_FACEBOOK_PHOTOS, TOGGLE_FACEBOOK_NAMES)();
 
 changeAll = (isSet = false, val = true)  => {
     linkedinUpdater('photos',isSet,val)
@@ -17,6 +20,8 @@ changeAll = (isSet = false, val = true)  => {
     angellistUpdater('names',isSet,val)
     twitterUpdater('photos',isSet,val)
     twitterUpdater('names',isSet,val)
+    facebookUpdater('photos', isSet,val)
+    facebookUpdater('names', isSet,val)
 }
 
 var toggleAll = function()  {
@@ -141,6 +146,51 @@ function clearAlPhotos(toggleAlPhotos) {
         obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
     }
 }
+
+function clearFacebookNames(toggleFacebookNames) {
+    if (window.location.href.indexOf('facebook.com') === -1) {
+        return;
+    }
+
+    var prevStyle = document.getElementById('BIAS_NAMES_FACEBOOK');
+    if (!toggleFacebookNames) {
+        prevStyle.parentNode.removeChild(prevStyle);
+    } else if (toggleFacebookNames && !prevStyle) {
+        const style = document.createElement('style');
+        style.id = 'BIAS_NAMES_FACEBOOK';
+
+        document.body.appendChild(style);
+
+        var facebookNameObfuscate = [
+          'div._32mo { visibility: hidden; }',
+          'div._32mo:before { content: "Link To Profile"; visibility: visible; }',
+        ]
+
+        facebookNameObfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
+    }
+}
+
+function clearFacebookPhotos(toggleFacebookPhotos) {
+    if (window.location.href.indexOf('facebook.com') === -1) {
+        return;
+    }
+
+    var prevStyle = document.getElementById('BIAS_PHOTOS_FACEBOOK');
+    if (!toggleFacebookPhotos && prevStyle) {
+        prevStyle.parentNode.removeChild(prevStyle);
+    } else if (toggleFacebookPhotos && !prevStyle) {
+        var style = document.createElement('style');
+        style.id = 'BIAS_PHOTOS_FACEBOOK';
+
+        document.body.appendChild(style);
+
+        // todo: individual settings for facebook
+        var facebookPhotoObfuscate = []
+
+        facebookPhotoObfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
+    }
+}
+
 
 function clearPhotos(togglePhotos) {
     if (window.location.href.indexOf('linkedin.com') == -1) {
@@ -328,6 +378,12 @@ chrome.runtime.onMessage.addListener(
                 break;
             case request.toggleTwitterPhotos:
                 twitterUpdater('photos',true)
+                break;
+            case request.toggleFacebookNames:
+                facebookUpdater('names',true)
+                break;
+            case request.toggleFacebookPhotos:
+                facebookUpdater('photos',true)
                 break;
         }
 });
