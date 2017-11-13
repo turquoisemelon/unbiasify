@@ -15,6 +15,8 @@ const STYLES = {
     'linkText' :  '{ content: "Link to Profile"; visibility: visible; }',
     'blur': '{ opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
     'colorToBlack': '{ color: black !important; background-color: black !important; }',
+    'visible': '{ visibility: visible !important; }',
+    'emptyContent': '{ content: "" !important; }',
 }
 
 changeAll = (isSet = false, val = true)  => {
@@ -36,7 +38,7 @@ var toggleAll = function()  {
 
 
 function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
-    
+
     return function() {
         let toggle = {};
         toggle['photos'] = [false, photoFunc, photoIdentifier];
@@ -50,9 +52,9 @@ function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
             }
             (toggle[type][1])(toggle[type][0])
             if (isSet) {
-                chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
+                chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })
             }
-            
+
         };
     }
 }
@@ -74,10 +76,10 @@ $(document).keydown(function(e){
     var shiftKey = e.shiftKey;
     var semiColon = e.which === 186;
 
-    if(ctrlKey && shiftKey && semiColon){ 
+    if(ctrlKey && shiftKey && semiColon){
         toggleAll();
     }
-}); 
+});
 
 function getIntitialVal(property,updaterFunction,type) {
     chrome.storage.sync.get(property, function(data) {
@@ -200,38 +202,38 @@ function clearNames(toggleNames) {
                 document.body.appendChild(style);
 
                 const nameObfuscate = [
-                  '[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }',
-                  '.neptune-grid > .launchpad__title { opacity: 0; }',
-                  '[data-control-name="actor"] > h3 >  span:first-child { visibility: hidden;}',
-                  '[data-control-name="actor"] > h3 >  span:first-child:before { content: "Link to Profile"; visibility: visible;}',
-                  'span[class*="-name"] { visibility: hidden !important; }',
-                  'span[class*="-name"]:before { content: "Link to Profile"; visibility: visible !important; }',
-                  'span[class*="__name"] { visibility: hidden !important; }',
-                  'h3[class*="__name"] { visibility: hidden !important; }',
-                  'h3[class*="-name"] { visibility: hidden !important; }',
-                  'a[class*="name"] { visibility: hidden !important; }',
-                  'h3[class*="__name"]:before { content: "Link to Profile"; visibility: visible !important; }',
-                  'a[class*="name"]:before { content: "Link to Profile"; visibility: visible !important; }',
-                  '[class*="person-info__shared"] { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-                  '.msg-conversation-card__message-snippet-body { opacity: 0; }',
-                  '.profile-rail-card__actor-link > p { visibility: hidden; }',
-                  '.pv-contact-info__card-sub-heading { opacity: 0; }',
-                  '.pv-entity__summary-info > p { visibility: hidden; }',
-                  '.entity-hovercard { opacity:0 !important;}',
-                  '[data-control-name="edit_endorsements"] { visibility: hidden; }',
-                  '[data-control-name="update_topbar_actor"] {visibility: hidden;}',
-                  '.pv-recent-activity-section__card-heading {visibility: hidden}',
-                  '[data-control-name="update_topbar_actor"]:before {content: "Link to Profile"; visibility: visible;}',
-                  '[data-control-name="topcard"] h2 { visibility:hidden !important; }',
-                  '[data-control-name="topcard"] h2:before { content: "Link to Profile"; visibility:visible !important; }',
-                  '.pv-top-card-section__name:before {content : "" !important;}',
-                  '.pv-top-card-section__name {visibility: hidden !important;}',
-                  'span[class*="school"] { visibility: visible !important; }',
-                  'span[class*="school"]:before { content: "" !important; }',
-                  'span[class*="skill"]:before { content: "" !important; }',
-                  'span[class*="skill"] { visibility: visible !important; }',
-                  'span[class*="degree"]:before { content: "" !important; }',
-                  'span[class*="degree"] { visibility: visible !important; }',
+                  `[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }`,
+                  `.neptune-grid > .launchpad__title { opacity: 0; }`,
+                  `[data-control-name="actor"] > h3 >  span:first-child ${STYLES.hidden }`,
+                  `[data-control-name="actor"] > h3 >  span:first-child:before  ${STYLES.linkText }`,
+                  `span[class*="-name"] ${ STYLES.hidden } `,
+                  `span[class*="-name"]:before  ${ STYLES.linkText }`,
+                  `span[class*="__name"]  ${ STYLES.hidden }`,
+                  `h3[class*="__name"]  ${ STYLES.hidden }`,
+                  `h3[class*="-name"]  ${ STYLES.hidden }`,
+                  `a[class*="name"]  ${ STYLES.hidden }`,
+                  `h3[class*="__name"]:before  ${ STYLES.linkText }`,
+                  `a[class*="name"]:before  ${ STYLES.linkText }`,
+                  `[class*="person-info__shared"] ${ STYLES.blur }`,
+                  `.msg-conversation-card__message-snippet-body { opacity: 0; }`,
+                  `.profile-rail-card__actor-link > p ${ STYLES.hidden } `,
+                  `.pv-contact-info__card-sub-heading { opacity: 0; }`,
+                  `.pv-entity__summary-info > p  ${ STYLES.hidden } `,
+                  `.entity-hovercard { opacity:0 !important;}`,
+                  `[data-control-name="edit_endorsements"] ${STYLES.hidden } `,
+                  `[data-control-name="update_topbar_actor"] ${STYLES.hidden }`,
+                  `.pv-recent-activity-section__card-heading  ${STYLES.hidden } `,
+                  `[data-control-name="update_topbar_actor"]:before ${ STYLES.linkText } `,
+                  `[data-control-name="topcard"] h2 ${ STYLES.hidden }`,
+                  `[data-control-name="topcard"] h2:before ${ STYLES.linkText } `,
+                  `.pv-top-card-section__name:before ${ STYLES.emptyContent }`,
+                  `.pv-top-card-section__name ${ STYLES.hidden }`,
+                  `span[class*="school"] ${ STYLES.visible }`,
+                  `span[class*="school"]:before ${ STYLES.emptyContent }`,
+                  `span[class*="skill"]:before ${ STYLES.emptyContent }`,
+                  `span[class*="skill"] ${ STYLES.visible }`,
+                  `span[class*="degree"]:before ${ STYLES.emptyContent }`,
+                  `span[class*="degree"] ${ STYLES.visible }`,
                 ];
 
 
@@ -338,5 +340,3 @@ chrome.runtime.onMessage.addListener(
                 break;
         }
 });
-
-
