@@ -10,6 +10,13 @@ var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOT
 var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
 
+const STYLES = {
+    'hidden' :  '{ visibility: hidden !important; }',
+    'linkText' :  '{ content: "Link to Profile"; visibility: visible; }',
+    'blur': '{ opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+    'colorToBlack': '{ color: black !important; background-color: black !important; }',
+}
+
 changeAll = (isSet = false, val = true)  => {
     linkedinUpdater('photos',isSet,val)
     linkedinUpdater('names',isSet,val)
@@ -91,23 +98,23 @@ function clearAlNames(toggleAlNames) {
         document.body.appendChild(style);
 
         const obfuscate = [
-          'a.u-colorGray3.u-uncoloredLink { visibility: hidden !important; }',
-          'a.u-colorGray3.u-uncoloredLink:before {content: "Link to Profile"; visibility: visible;}',
-          '.qtip a.profile-link { visibility: hidden !important; }',
-          '.qtip a.profile-link:before { content: "Link to Profile"; visibility: visible; }',
-          '.connection-text { visibility: hidden !important; }',
-          '.people-list.connection  > div { visibility: hidden !important; }',
-          '.profile-text > h1 { visibility: hidden !important; }',
-          '.profiles-show.connections .object-list-title a.profile-link { visibility: hidden !important; }',
-          '.profiles-show.connections .object-list-title a.profile-link:before { content: "Link to Profile"; visibility: visible;}',
-          '.profiles-show.connections .object-list-subtitle { visibility: hidden !important; }',
-          '.candidate-header-content .u-uncoloredLink {visibility:hidden !important; }',
-          '.candidate-header-content .u-uncoloredLink:before {content: "Link to Profile"; visibility: visible;}',
-          '.card-content-container .js-browse-table-row-name a.u-unstyledLink {visibility:hidden !important; }',
-          '.card-content-container .js-browse-table-row-name a.u-unstyledLink:before {content: "Link to Profile"; visibility: visible; }',
-          '.avatar-container .name {visibility: hidden;}',
-          '.review a.profile-link.u-uncoloredLink {visibility: hidden;}',
-          '.review a.profile-link.u-uncoloredLink:before {content: "Link to Profile"; visibility: visible;}'
+          `a.u-colorGray3.u-uncoloredLink ${STYLES.hidden}`,
+          `a.u-colorGray3.u-uncoloredLink:before ${STYLES.linkText}`,
+          `.qtip a.profile-link ${STYLES.hidden}`,
+          `.qtip a.profile-link:before  ${STYLES.linkText}`,
+          `.connection-text ${STYLES.hidden}`,
+          `.people-list.connection  > div ${STYLES.hidden}`,
+          `.profile-text > h1 ${STYLES.hidden}`,
+          `.profiles-show.connections .object-list-title a.profile-link ${STYLES.hidden}`,
+          `.profiles-show.connections .object-list-title a.profile-link:before  ${STYLES.linkText}`,
+          `.profiles-show.connections .object-list-subtitle ${STYLES.hidden}`,
+          `.candidate-header-content .u-uncoloredLink ${STYLES.hidden}`,
+          `.candidate-header-content .u-uncoloredLink:before  ${STYLES.linkText}`,
+          `.card-content-container .js-browse-table-row-name a.u-unstyledLink ${STYLES.hidden}`,
+          `.card-content-container .js-browse-table-row-name a.u-unstyledLink:before  ${STYLES.linkText}`,
+          `.avatar-container .name ${STYLES.hidden}`,
+          `.review a.profile-link.u-uncoloredLink ${STYLES.hidden}`,
+          `.review a.profile-link.u-uncoloredLink:before  ${STYLES.linkText}`
         ];
 
 
@@ -127,13 +134,13 @@ function clearAlPhotos(toggleAlPhotos) {
         document.body.appendChild(style);
 
         const obfuscate = [
-          '.candidate-header-content img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-          '.card-content-container img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-          '.photo .profile-link img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
-          '.profiles-show.subheader img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
-          '.avatar-container img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
-          '.review img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;} ',
-          '.qtip-content img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}'
+          `.candidate-header-content img  ${STYLES.blur} `,
+          `.card-content-container img  ${STYLES.blur} `,
+          `.photo .profile-link img  ${STYLES.blur} `,
+          `.profiles-show.subheader img  ${STYLES.blur} `,
+          `.avatar-container img  ${STYLES.blur} `,
+          `.review img ${STYLES.blur} `,
+          `.qtip-content img  ${STYLES.blur} `,
         ];
 
 
@@ -157,23 +164,23 @@ function clearPhotos(togglePhotos) {
     document.body.appendChild(style)
 
     const obfuscate = [
-      "span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * { color: black !important; background-color: black !important; }",
+      `span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * ${STYLES.colorToBlack}`,
 
-      '.presence-entity__image {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
+      `.presence-entity__image ${STYLES.blur}`,
 
-      '.pv-top-card-section__profile-photo-container .pv-top-card-section__image { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+      `.pv-top-card-section__profile-photo-container .pv-top-card-section__image ${STYLES.blur}`,
 
-      'img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+      `img ${STYLES.blur}`,
 
-      '#aux > div.insights > h3 { color: black !important; background-color: black !important; }',
+      `#aux > div.insights > h3 ${STYLES.colorToBlack}`,
 
-      "#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
+      `#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }`,
 
-      "[id^='control_gen_'] > div.header > h3 { color: black !important; background-color: black !important; }",
+      `[id^='control_gen_'] > div.header > h3 ${STYLES.colorToBlack}`,
 
-      "[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
+      `[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }`,
 
-      "#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }",
+      `#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }`,
     ]
 
     obfuscate.forEach((r, i) => style.sheet.insertRule(r, i))
