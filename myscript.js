@@ -262,22 +262,22 @@ function clearTwitterNames(toggleTwitterNames) {
             document.body.appendChild(style);
 
             var rules = [
-              'strong.fullname.show-popup-with-id { visibility: hidden; }',
-              'strong.fullname.show-popup-with-id:before { content: "Link To Profile"; visibility: visible; }',
-              'span.username.u-dir { visibility: hidden; }',
-              '.ProfileNameTruncated-link { visibility: hidden; }',
-              '.ProfileNameTruncated-link:before { content: "Link To Profile"; visibility: visible; }',
-              '.ProfileHeaderCard-nameLink { visibility: hidden; }',
-              '.ProfileHeaderCard-nameLink:before { content: "Link To Profile", visibility: visible; }',
-              'span.NewTweetButton-text { visibility: hidden; }',
-              'span.ProfileHeaderCard-urlText > a { visibility: hidden; }',
-              '.js-retweet-text b { visibility: hidden; }',
-              '.js-retweet-text b:before { visibility: visible; content: "User"; }',
-              'div.tooltip { visibility: hidden; }',
-              '.js-recommended-followers .fullname { visibility: hidden; }',
-              '.js-recommended-followers .fullname:before { visibility: visible; content: "Link To Profile" }',
-              '.ActivityItem .fullname { visibility: hidden; }',
-              '.ActivityItem .fullname:before { visibility: visible; content: "Link To Profile" }',
+              `strong.fullname.show-popup-with-id ${ STYLES.hidden }`,
+              `strong.fullname.show-popup-with-id:before ${ STYLES.linkText }`,
+              `span.username.u-dir ${ STYLES.hidden }`,
+              `.ProfileNameTruncated-link ${ STYLES.hidden }`,
+              `.ProfileNameTruncated-link:before ${ STYLES.linkText }`,
+              `.ProfileHeaderCard-nameLink ${ STYLES.hidden }`,
+              `.ProfileHeaderCard-nameLink:before ${ STYLES.linkText }`,
+              `span.NewTweetButton-text ${ STYLES.hidden }`,
+              `span.ProfileHeaderCard-urlText > a ${ STYLES.hidden }`,
+              `.js-retweet-text b ${ STYLES.hidden }`,
+              `.js-retweet-text b:before { visibility: visible; content: "User"; }`,
+              `div.tooltip ${ STYLES.hidden }`,
+              `.js-recommended-followers .fullname ${ STYLES.hidden }`,
+              `.js-recommended-followers .fullname:before ${ STYLES.linkText }`,
+              `.ActivityItem .fullname ${ STYLES.hidden }`,
+              `.ActivityItem .fullname:before ${ STYLES.linkText }`,
             ]
 
             rules.forEach((r, i) => style.sheet.insertRule(r, i));
@@ -301,16 +301,16 @@ function clearTwitterPhotos(toggleTwitterPhotos) {
         document.body.appendChild(style);
 
         var rules = [
-            'img.avatar.js-action-profile-avatar { visibility: hidden; }',
-            '.ProfileCard-bg { visibility: hidden; }',
-            '.ProfileCard-avatarImage.js-action-profile-avatar { visibility: hidden; }',
-            '.ProfileAvatar-image { visibility: hidden; }',
-            '.ProfileCanopy-headerBg > img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-            '.ProfileCardMini-avatarImage { visibility: hidden; }',
-            '.ActivityItem .avatar { visibility: hidden; }',
-            '.js-profile-popup-actionable .avatar { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;  }',
-            '.ActivityItem-displayText strong { visibility: hidden; }',
-            '.tweet-content .QuoteTweet-originalAuthor {visibility: hidden;} '
+            `img.avatar.js-action-profile-avatar ${ STYLES.hidden }`,
+            `.ProfileCard-bg ${ STYLES.hidden }`,
+            `.ProfileCard-avatarImage.js-action-profile-avatar ${ STYLES.hidden }`,
+            `.ProfileAvatar-image ${ STYLES.hidden }`,
+            `.ProfileCanopy-headerBg > img ${STYLES.blur}`,
+            `.ProfileCardMini-avatarImage ${ STYLES.hidden }`,
+            `.ActivityItem .avatar ${ STYLES.hidden }`,
+            `.js-profile-popup-actionable .avatar ${STYLES.blur}`,
+            `.ActivityItem-displayText strong ${ STYLES.hidden }`,
+            `.tweet-content .QuoteTweet-originalAuthor ${ STYLES.hidden } `
         ]
 
         rules.forEach((r, i) => style.sheet.insertRule(r, i));
