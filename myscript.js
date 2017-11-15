@@ -32,7 +32,8 @@ var toggleAll = function()  {
     var toggleAll = false;
     return () => {
         toggleAll = !toggleAll;
-        changeAll(true,toggleAll)
+        chrome.storage.sync.set({ 'toggleAll': toggleAll });
+        
     }
 }()
 
@@ -45,6 +46,9 @@ function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
         toggle['names'] = [false, nameFunc, nameIdentifier];
 
         return function(type, isSet = false, val){
+            if (!toggle || !toggle[type] || !(toggle[type].length)) {
+                return;
+            }
             if (val != undefined) {
                 toggle[type][0] = val;
             } else {
@@ -81,6 +85,19 @@ $(document).keydown(function(e){
     }
 });
 
+
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+    for (key in changes) {
+      var storageChange = changes[key];
+      if (key === 'toggleAll') {
+          let isTrue = storageChange.newValue
+          changeAll(true,isTrue)
+      }
+    }
+  });
+  
+
+
 function getIntitialVal(property,updaterFunction,type) {
     chrome.storage.sync.get(property, function(data) {
         val = data[property] || false;
@@ -91,7 +108,7 @@ function getIntitialVal(property,updaterFunction,type) {
 
 function clearAlNames(toggleAlNames) {
     var prevStyle = document.getElementById('BIAS_ANGELLIST_NAMES');
-    if (!toggleAlNames) {
+    if (!toggleAlNames && prevStyle) {
         prevStyle.parentNode.removeChild(prevStyle);
       } else if (!prevStyle && toggleAlNames){
         const style = document.createElement('style');
@@ -127,7 +144,7 @@ function clearAlNames(toggleAlNames) {
 function clearAlPhotos(toggleAlPhotos) {
 
     var prevStyle = document.getElementById('BIAS_ANGELLIST_PHOTOS');
-    if (!toggleAlPhotos) {
+    if (!toggleAlPhotos && prevStyle) {
         prevStyle.parentNode.removeChild(prevStyle);
       } else if (toggleAlPhotos && !prevStyle) {
         const style = document.createElement('style');
@@ -157,7 +174,7 @@ function clearPhotos(togglePhotos) {
     }
     var prevStyle = document.getElementById('BIAS_LINKEDIN');
 
-  if (!togglePhotos) {
+  if (!togglePhotos && prevStyle) {
     prevStyle.parentNode.removeChild(prevStyle)
   } else if (togglePhotos && !prevStyle) {
     const style = document.createElement('style')
@@ -193,7 +210,7 @@ function clearNames(toggleNames) {
         return;
     }
     var prevStyle = document.getElementById('BIAS_NAMES_LINKEDIN');
-              if (!toggleNames) {
+              if (!toggleNames && prevStyle) {
                 prevStyle.parentNode.removeChild(prevStyle);
               } else if (toggleNames && !prevStyle) {
                 const style = document.createElement('style');
@@ -247,7 +264,7 @@ function clearTwitterNames(toggleTwitterNames) {
     }
 
     var prevStyle = document.getElementById('BIAS_NAMES_TWITTER');
-    if (!toggleTwitterNames) {
+    if (!toggleTwitterNames && prevStyle) {
       prevStyle.parentNode.removeChild(prevStyle);
     } else if (toggleTwitterNames) {
 
