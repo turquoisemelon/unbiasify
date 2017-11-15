@@ -10,6 +10,15 @@ var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOT
 var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
 
+const STYLES = {
+    'hidden' :  '{ visibility: hidden !important; }',
+    'linkText' :  '{ content: "Link to Profile"; visibility: visible; }',
+    'blur': '{ opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+    'colorToBlack': '{ color: black !important; background-color: black !important; }',
+    'visible': '{ visibility: visible !important; }',
+    'emptyContent': '{ content: "" !important; }',
+}
+
 changeAll = (isSet = false, val = true)  => {
     linkedinUpdater('photos',isSet,val)
     linkedinUpdater('names',isSet,val)
@@ -29,7 +38,7 @@ var toggleAll = function()  {
 
 
 function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
-    
+
     return function() {
         let toggle = {};
         toggle['photos'] = [false, photoFunc, photoIdentifier];
@@ -43,9 +52,9 @@ function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
             }
             (toggle[type][1])(toggle[type][0])
             if (isSet) {
-                chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })   
+                chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })
             }
-            
+
         };
     }
 }
@@ -67,10 +76,10 @@ $(document).keydown(function(e){
     var shiftKey = e.shiftKey;
     var semiColon = e.which === 186;
 
-    if(ctrlKey && shiftKey && semiColon){ 
+    if(ctrlKey && shiftKey && semiColon){
         toggleAll();
     }
-}); 
+});
 
 function getIntitialVal(property,updaterFunction,type) {
     chrome.storage.sync.get(property, function(data) {
@@ -91,23 +100,23 @@ function clearAlNames(toggleAlNames) {
         document.body.appendChild(style);
 
         const obfuscate = [
-          'a.u-colorGray3.u-uncoloredLink { visibility: hidden !important; }',
-          'a.u-colorGray3.u-uncoloredLink:before {content: "Link to Profile"; visibility: visible;}',
-          '.qtip a.profile-link { visibility: hidden !important; }',
-          '.qtip a.profile-link:before { content: "Link to Profile"; visibility: visible; }',
-          '.connection-text { visibility: hidden !important; }',
-          '.people-list.connection  > div { visibility: hidden !important; }',
-          '.profile-text > h1 { visibility: hidden !important; }',
-          '.profiles-show.connections .object-list-title a.profile-link { visibility: hidden !important; }',
-          '.profiles-show.connections .object-list-title a.profile-link:before { content: "Link to Profile"; visibility: visible;}',
-          '.profiles-show.connections .object-list-subtitle { visibility: hidden !important; }',
-          '.candidate-header-content .u-uncoloredLink {visibility:hidden !important; }',
-          '.candidate-header-content .u-uncoloredLink:before {content: "Link to Profile"; visibility: visible;}',
-          '.card-content-container .js-browse-table-row-name a.u-unstyledLink {visibility:hidden !important; }',
-          '.card-content-container .js-browse-table-row-name a.u-unstyledLink:before {content: "Link to Profile"; visibility: visible; }',
-          '.avatar-container .name {visibility: hidden;}',
-          '.review a.profile-link.u-uncoloredLink {visibility: hidden;}',
-          '.review a.profile-link.u-uncoloredLink:before {content: "Link to Profile"; visibility: visible;}'
+          `a.u-colorGray3.u-uncoloredLink ${STYLES.hidden}`,
+          `a.u-colorGray3.u-uncoloredLink:before ${STYLES.linkText}`,
+          `.qtip a.profile-link ${STYLES.hidden}`,
+          `.qtip a.profile-link:before  ${STYLES.linkText}`,
+          `.connection-text ${STYLES.hidden}`,
+          `.people-list.connection  > div ${STYLES.hidden}`,
+          `.profile-text > h1 ${STYLES.hidden}`,
+          `.profiles-show.connections .object-list-title a.profile-link ${STYLES.hidden}`,
+          `.profiles-show.connections .object-list-title a.profile-link:before  ${STYLES.linkText}`,
+          `.profiles-show.connections .object-list-subtitle ${STYLES.hidden}`,
+          `.candidate-header-content .u-uncoloredLink ${STYLES.hidden}`,
+          `.candidate-header-content .u-uncoloredLink:before  ${STYLES.linkText}`,
+          `.card-content-container .js-browse-table-row-name a.u-unstyledLink ${STYLES.hidden}`,
+          `.card-content-container .js-browse-table-row-name a.u-unstyledLink:before  ${STYLES.linkText}`,
+          `.avatar-container .name ${STYLES.hidden}`,
+          `.review a.profile-link.u-uncoloredLink ${STYLES.hidden}`,
+          `.review a.profile-link.u-uncoloredLink:before  ${STYLES.linkText}`
         ];
 
 
@@ -127,13 +136,13 @@ function clearAlPhotos(toggleAlPhotos) {
         document.body.appendChild(style);
 
         const obfuscate = [
-          '.candidate-header-content img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-          '.card-content-container img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-          '.photo .profile-link img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
-          '.profiles-show.subheader img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
-          '.avatar-container img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
-          '.review img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;} ',
-          '.qtip-content img {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}'
+          `.candidate-header-content img  ${STYLES.blur} `,
+          `.card-content-container img  ${STYLES.blur} `,
+          `.photo .profile-link img  ${STYLES.blur} `,
+          `.profiles-show.subheader img  ${STYLES.blur} `,
+          `.avatar-container img  ${STYLES.blur} `,
+          `.review img ${STYLES.blur} `,
+          `.qtip-content img  ${STYLES.blur} `,
         ];
 
 
@@ -157,23 +166,23 @@ function clearPhotos(togglePhotos) {
     document.body.appendChild(style)
 
     const obfuscate = [
-      "span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * { color: black !important; background-color: black !important; }",
+      `span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * ${STYLES.colorToBlack}`,
 
-      '.presence-entity__image {opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;}',
+      `.presence-entity__image ${STYLES.blur}`,
 
-      '.pv-top-card-section__profile-photo-container .pv-top-card-section__image { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+      `.pv-top-card-section__profile-photo-container .pv-top-card-section__image ${STYLES.blur}`,
 
-      'img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+      `img ${STYLES.blur}`,
 
-      '#aux > div.insights > h3 { color: black !important; background-color: black !important; }',
+      `#aux > div.insights > h3 ${STYLES.colorToBlack}`,
 
-      "#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
+      `#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }`,
 
-      "[id^='control_gen_'] > div.header > h3 { color: black !important; background-color: black !important; }",
+      `[id^='control_gen_'] > div.header > h3 ${STYLES.colorToBlack}`,
 
-      "[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }",
+      `[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }`,
 
-      "#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }",
+      `#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }`,
     ]
 
     obfuscate.forEach((r, i) => style.sheet.insertRule(r, i))
@@ -193,38 +202,38 @@ function clearNames(toggleNames) {
                 document.body.appendChild(style);
 
                 const nameObfuscate = [
-                  '[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }',
-                  '.neptune-grid > .launchpad__title { opacity: 0; }',
-                  '[data-control-name="actor"] > h3 >  span:first-child { visibility: hidden;}',
-                  '[data-control-name="actor"] > h3 >  span:first-child:before { content: "Link to Profile"; visibility: visible;}',
-                  'span[class*="-name"] { visibility: hidden !important; }',
-                  'span[class*="-name"]:before { content: "Link to Profile"; visibility: visible !important; }',
-                  'span[class*="__name"] { visibility: hidden !important; }',
-                  'h3[class*="__name"] { visibility: hidden !important; }',
-                  'h3[class*="-name"] { visibility: hidden !important; }',
-                  'a[class*="name"] { visibility: hidden !important; }',
-                  'h3[class*="__name"]:before { content: "Link to Profile"; visibility: visible !important; }',
-                  'a[class*="name"]:before { content: "Link to Profile"; visibility: visible !important; }',
-                  '[class*="person-info__shared"] { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-                  '.msg-conversation-card__message-snippet-body { opacity: 0; }',
-                  '.profile-rail-card__actor-link > p { visibility: hidden; }',
-                  '.pv-contact-info__card-sub-heading { opacity: 0; }',
-                  '.pv-entity__summary-info > p { visibility: hidden; }',
-                  '.entity-hovercard { opacity:0 !important;}',
-                  '[data-control-name="edit_endorsements"] { visibility: hidden; }',
-                  '[data-control-name="update_topbar_actor"] {visibility: hidden;}',
-                  '.pv-recent-activity-section__card-heading {visibility: hidden}',
-                  '[data-control-name="update_topbar_actor"]:before {content: "Link to Profile"; visibility: visible;}',
-                  '[data-control-name="topcard"] h2 { visibility:hidden !important; }',
-                  '[data-control-name="topcard"] h2:before { content: "Link to Profile"; visibility:visible !important; }',
-                  '.pv-top-card-section__name:before {content : "" !important;}',
-                  '.pv-top-card-section__name {visibility: hidden !important;}',
-                  'span[class*="school"] { visibility: visible !important; }',
-                  'span[class*="school"]:before { content: "" !important; }',
-                  'span[class*="skill"]:before { content: "" !important; }',
-                  'span[class*="skill"] { visibility: visible !important; }',
-                  'span[class*="degree"]:before { content: "" !important; }',
-                  'span[class*="degree"] { visibility: visible !important; }',
+                  `[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }`,
+                  `.neptune-grid > .launchpad__title { opacity: 0; }`,
+                  `[data-control-name="actor"] > h3 >  span:first-child ${STYLES.hidden }`,
+                  `[data-control-name="actor"] > h3 >  span:first-child:before  ${STYLES.linkText }`,
+                  `span[class*="-name"] ${ STYLES.hidden } `,
+                  `span[class*="-name"]:before  ${ STYLES.linkText }`,
+                  `span[class*="__name"]  ${ STYLES.hidden }`,
+                  `h3[class*="__name"]  ${ STYLES.hidden }`,
+                  `h3[class*="-name"]  ${ STYLES.hidden }`,
+                  `a[class*="name"]  ${ STYLES.hidden }`,
+                  `h3[class*="__name"]:before  ${ STYLES.linkText }`,
+                  `a[class*="name"]:before  ${ STYLES.linkText }`,
+                  `[class*="person-info__shared"] ${ STYLES.blur }`,
+                  `.msg-conversation-card__message-snippet-body { opacity: 0; }`,
+                  `.profile-rail-card__actor-link > p ${ STYLES.hidden } `,
+                  `.pv-contact-info__card-sub-heading { opacity: 0; }`,
+                  `.pv-entity__summary-info > p  ${ STYLES.hidden } `,
+                  `.entity-hovercard { opacity:0 !important;}`,
+                  `[data-control-name="edit_endorsements"] ${STYLES.hidden } `,
+                  `[data-control-name="update_topbar_actor"] ${STYLES.hidden }`,
+                  `.pv-recent-activity-section__card-heading  ${STYLES.hidden } `,
+                  `[data-control-name="update_topbar_actor"]:before ${ STYLES.linkText } `,
+                  `[data-control-name="topcard"] h2 ${ STYLES.hidden }`,
+                  `[data-control-name="topcard"] h2:before ${ STYLES.linkText } `,
+                  `.pv-top-card-section__name:before ${ STYLES.emptyContent }`,
+                  `.pv-top-card-section__name ${ STYLES.hidden }`,
+                  `span[class*="school"] ${ STYLES.visible }`,
+                  `span[class*="school"]:before ${ STYLES.emptyContent }`,
+                  `span[class*="skill"]:before ${ STYLES.emptyContent }`,
+                  `span[class*="skill"] ${ STYLES.visible }`,
+                  `span[class*="degree"]:before ${ STYLES.emptyContent }`,
+                  `span[class*="degree"] ${ STYLES.visible }`,
                 ];
 
 
@@ -253,22 +262,22 @@ function clearTwitterNames(toggleTwitterNames) {
             document.body.appendChild(style);
 
             var rules = [
-              'strong.fullname.show-popup-with-id { visibility: hidden; }',
-              'strong.fullname.show-popup-with-id:before { content: "Link To Profile"; visibility: visible; }',
-              'span.username.u-dir { visibility: hidden; }',
-              '.ProfileNameTruncated-link { visibility: hidden; }',
-              '.ProfileNameTruncated-link:before { content: "Link To Profile"; visibility: visible; }',
-              '.ProfileHeaderCard-nameLink { visibility: hidden; }',
-              '.ProfileHeaderCard-nameLink:before { content: "Link To Profile", visibility: visible; }',
-              'span.NewTweetButton-text { visibility: hidden; }',
-              'span.ProfileHeaderCard-urlText > a { visibility: hidden; }',
-              '.js-retweet-text b { visibility: hidden; }',
-              '.js-retweet-text b:before { visibility: visible; content: "User"; }',
-              'div.tooltip { visibility: hidden; }',
-              '.js-recommended-followers .fullname { visibility: hidden; }',
-              '.js-recommended-followers .fullname:before { visibility: visible; content: "Link To Profile" }',
-              '.ActivityItem .fullname { visibility: hidden; }',
-              '.ActivityItem .fullname:before { visibility: visible; content: "Link To Profile" }',
+              `strong.fullname.show-popup-with-id ${ STYLES.hidden }`,
+              `strong.fullname.show-popup-with-id:before ${ STYLES.linkText }`,
+              `span.username.u-dir ${ STYLES.hidden }`,
+              `.ProfileNameTruncated-link ${ STYLES.hidden }`,
+              `.ProfileNameTruncated-link:before ${ STYLES.linkText }`,
+              `.ProfileHeaderCard-nameLink ${ STYLES.hidden }`,
+              `.ProfileHeaderCard-nameLink:before ${ STYLES.linkText }`,
+              `span.NewTweetButton-text ${ STYLES.hidden }`,
+              `span.ProfileHeaderCard-urlText > a ${ STYLES.hidden }`,
+              `.js-retweet-text b ${ STYLES.hidden }`,
+              `.js-retweet-text b:before { visibility: visible; content: "User"; }`,
+              `div.tooltip ${ STYLES.hidden }`,
+              `.js-recommended-followers .fullname ${ STYLES.hidden }`,
+              `.js-recommended-followers .fullname:before ${ STYLES.linkText }`,
+              `.ActivityItem .fullname ${ STYLES.hidden }`,
+              `.ActivityItem .fullname:before ${ STYLES.linkText }`,
             ]
 
             rules.forEach((r, i) => style.sheet.insertRule(r, i));
@@ -292,16 +301,16 @@ function clearTwitterPhotos(toggleTwitterPhotos) {
         document.body.appendChild(style);
 
         var rules = [
-            'img.avatar.js-action-profile-avatar { visibility: hidden; }',
-            '.ProfileCard-bg { visibility: hidden; }',
-            '.ProfileCard-avatarImage.js-action-profile-avatar { visibility: hidden; }',
-            '.ProfileAvatar-image { visibility: hidden; }',
-            '.ProfileCanopy-headerBg > img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-            '.ProfileCardMini-avatarImage { visibility: hidden; }',
-            '.ActivityItem .avatar { visibility: hidden; }',
-            '.js-profile-popup-actionable .avatar { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important;  }',
-            '.ActivityItem-displayText strong { visibility: hidden; }',
-            '.tweet-content .QuoteTweet-originalAuthor {visibility: hidden;} '
+            `img.avatar.js-action-profile-avatar ${ STYLES.hidden }`,
+            `.ProfileCard-bg ${ STYLES.hidden }`,
+            `.ProfileCard-avatarImage.js-action-profile-avatar ${ STYLES.hidden }`,
+            `.ProfileAvatar-image ${ STYLES.hidden }`,
+            `.ProfileCanopy-headerBg > img ${STYLES.blur}`,
+            `.ProfileCardMini-avatarImage ${ STYLES.hidden }`,
+            `.ActivityItem .avatar ${ STYLES.hidden }`,
+            `.js-profile-popup-actionable .avatar ${STYLES.blur}`,
+            `.ActivityItem-displayText strong ${ STYLES.hidden }`,
+            `.tweet-content .QuoteTweet-originalAuthor ${ STYLES.hidden } `
         ]
 
         rules.forEach((r, i) => style.sheet.insertRule(r, i));
@@ -331,5 +340,3 @@ chrome.runtime.onMessage.addListener(
                 break;
         }
 });
-
-
