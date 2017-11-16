@@ -5,10 +5,11 @@ const TOGGLE_ANGELLIST_PHOTOS = 'toggleAlPhotos'
 const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
 const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
 const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
-
-var linkedinUpdater = createModel(clearPhotos, clearNames, TOGGLE_LINKED_IN_PHOTOS, TOGGLE_LINKED_IN_NAMES)();
-var angellistUpdater = createModel(clearAlPhotos, clearAlNames, TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
-var twitterUpdater = createModel(clearTwitterPhotos, clearTwitterNames, TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
+const URLS = {
+    'linkedIn': 'linkedin.com',
+    'twitter': 'twitter.com',
+    'angelList': 'angel.co'
+}
 
 const STYLES = {
     'hidden' :  '{ visibility: hidden !important; }',
@@ -158,6 +159,10 @@ const STYLE_SHEETS = {
     },
 }
 
+var linkedinUpdater = createModel('linkedIn', TOGGLE_LINKED_IN_PHOTOS, TOGGLE_LINKED_IN_NAMES)();
+var angellistUpdater = createModel('angelList', TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
+var twitterUpdater = createModel('twitter', TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
+
 changeAll = (isSet = false, val = true)  => {
     linkedinUpdater('photos',isSet,val)
     linkedinUpdater('names',isSet,val)
@@ -177,12 +182,13 @@ var toggleAll = function()  {
 }()
 
 
-function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
+function createModel(styleIdentifier, photoIdentifier, nameIdentifier) {
 
     return function() {
         let toggle = {};
-        toggle['photos'] = [false, photoFunc, photoIdentifier];
-        toggle['names'] = [false, nameFunc, nameIdentifier];
+        let url = URLS[styleIdentifier];
+        toggle['photos'] = [false, photoIdentifier, STYLE_SHEETS[styleIdentifier].photoId, STYLE_SHEETS[styleIdentifier].photos];
+        toggle['names'] = [false, nameIdentifier, STYLE_SHEETS[styleIdentifier].nameId, STYLE_SHEETS[styleIdentifier].names];
 
         return function(type, isSet = false, val){
             if (!toggle || !toggle[type] || !(toggle[type].length)) {
@@ -193,17 +199,17 @@ function createModel(photoFunc, nameFunc, photoIdentifier, nameIdentifier) {
             } else {
                 toggle[type][0] = !toggle[type][0];
             }
-            (toggle[type][1])(toggle[type][0])
+            const id = toggle[type][2];
+            const styles = toggle[type][3];
+            const nextVal = toggle[type][0];
+            toggleStyles(id, styles, nextVal, url)
             if (isSet) {
-                chrome.storage.sync.set({ [toggle[type][2]]: toggle[type][0] })
+                chrome.storage.sync.set({ [toggle[type][1]]: nextVal })
             }
 
         };
     }
 }
-
-
-
 
 changeAll();
 
@@ -236,6 +242,8 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
   });
 
 
+
+
 function getIntitialVal(property,updaterFunction,type) {
     chrome.storage.sync.get(property, function(data) {
         val = data[property] || false;
@@ -243,7 +251,10 @@ function getIntitialVal(property,updaterFunction,type) {
     });
 }
 
-function toggleStyles(styleId, obfuscate, toggleBoolVar) {
+function toggleStyles(styleId, obfuscate, toggleBoolVar, url) {
+    if (window.location.href.indexOf(url) == -1) {
+        return;
+    }
     var prevStyle = document.getElementById(styleId);
     if (!toggleBoolVar && prevStyle) {
         prevStyle.parentNode.removeChild(prevStyle);
@@ -257,65 +268,6 @@ function toggleStyles(styleId, obfuscate, toggleBoolVar) {
       } 
 }
 
-
-function clearAlNames(toggleAlNames) {
-
-    const obfuscate = STYLE_SHEETS.angelList.names;
-    const styleId = STYLE_SHEETS.angelList.nameId;
-    toggleStyles(styleId, obfuscate, toggleAlNames)
-}
-
-function clearAlPhotos(toggleAlPhotos) {
-
-    const obfuscate = STYLE_SHEETS.angelList.photos;
-    const styleId = STYLE_SHEETS.angelList.photoId;
-
-    toggleStyles(styleId, obfuscate, toggleAlPhotos)
-}
-
-function clearPhotos(togglePhotos) {
-    if (window.location.href.indexOf('linkedin.com') == -1) {
-        return;
-    }
-
-    const styleId = STYLE_SHEETS.linkedIn.photoId;
-    const obfuscate = STYLE_SHEETS.linkedIn.photos
-
-    toggleStyles(styleId, obfuscate, togglePhotos);
-}
-function clearNames(toggleNames) {
-    if (window.location.href.indexOf('linkedin.com') == -1) {
-        return;
-    }
-   
-    const styleId = STYLE_SHEETS.linkedIn.nameId;
-    const obfuscate = STYLE_SHEETS.linkedIn.names;
-    toggleStyles(styleId, obfuscate, toggleNames);
-}
-
-function clearTwitterNames(toggleTwitterNames) {
-    if (window.location.href.indexOf('twitter.com') === -1) {
-        return;
-    }
-
-    document.title = "Twitter";
-    
-    const obfuscate = STYLE_SHEETS.twitter.names;
-    const styleId = STYLE_SHEETS.twitter.nameId;
-
-    toggleStyles(styleId, obfuscate, toggleTwitterNames);
-}
-
-function clearTwitterPhotos(toggleTwitterPhotos) {
-    if (window.location.href.indexOf('twitter.com') === -1) {
-        return;
-    }
-
-    const obfuscate = STYLE_SHEETS.twitter.photos;
-    const styleId = STYLE_SHEETS.twitter.photoId; 
-
-    toggleStyles(styleId, obfuscate, toggleTwitterPhotos);
-}
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
