@@ -17,6 +17,8 @@ const STYLES = {
     'colorToBlack': '{ color: black !important; background-color: black !important; }',
     'visible': '{ visibility: visible !important; }',
     'emptyContent': '{ content: "" !important; }',
+    'emptyBlock': '{ content: ""; text-indent: 0; display: block; line-height: initial; }',
+    'zeroOpacity': '{ opacity:0 !important; }'
 }
 
 changeAll = (isSet = false, val = true)  => {
@@ -117,23 +119,25 @@ function clearAlNames(toggleAlNames) {
         document.body.appendChild(style);
 
         const obfuscate = [
-          `a.u-colorGray3.u-uncoloredLink ${STYLES.hidden}`,
-          `a.u-colorGray3.u-uncoloredLink:before ${STYLES.linkText}`,
-          `.qtip a.profile-link ${STYLES.hidden}`,
-          `.qtip a.profile-link:before  ${STYLES.linkText}`,
-          `.connection-text ${STYLES.hidden}`,
-          `.people-list.connection  > div ${STYLES.hidden}`,
-          `.profile-text > h1 ${STYLES.hidden}`,
-          `.profiles-show.connections .object-list-title a.profile-link ${STYLES.hidden}`,
-          `.profiles-show.connections .object-list-title a.profile-link:before  ${STYLES.linkText}`,
-          `.profiles-show.connections .object-list-subtitle ${STYLES.hidden}`,
-          `.candidate-header-content .u-uncoloredLink ${STYLES.hidden}`,
-          `.candidate-header-content .u-uncoloredLink:before  ${STYLES.linkText}`,
-          `.card-content-container .js-browse-table-row-name a.u-unstyledLink ${STYLES.hidden}`,
-          `.card-content-container .js-browse-table-row-name a.u-unstyledLink:before  ${STYLES.linkText}`,
-          `.avatar-container .name ${STYLES.hidden}`,
-          `.review a.profile-link.u-uncoloredLink ${STYLES.hidden}`,
-          `.review a.profile-link.u-uncoloredLink:before  ${STYLES.linkText}`
+          `a.u-colorGray3.u-uncoloredLink,
+          .qtip a.profile-link,
+          .connection-text,
+          .people-list.connection  > div,
+          .profile-text > h1,
+          .profiles-show.connections .object-list-title a.profile-link,
+          .profiles-show.connections .object-list-subtitle,
+          .candidate-header-content .u-uncoloredLink,
+          .card-content-container .js-browse-table-row-name a.u-unstyledLink,
+          .avatar-container .name,
+          .review a.profile-link.u-uncoloredLink,
+          .similar-profile .object-list-title  ${STYLES.hidden}`,
+
+          `.qtip a.profile-link:before,
+           a.u-colorGray3.u-uncoloredLink:before,
+          .profiles-show.connections .object-list-title a.profile-link:before,
+          .candidate-header-content .u-uncoloredLink:before,
+          .card-content-container .js-browse-table-row-name a.u-unstyledLink:before,
+          .review a.profile-link.u-uncoloredLink:before   ${STYLES.linkText}`
         ];
 
 
@@ -153,14 +157,14 @@ function clearAlPhotos(toggleAlPhotos) {
         document.body.appendChild(style);
 
         const obfuscate = [
-          `.candidate-header-content img  ${STYLES.blur} `,
-          `.card-content-container img  ${STYLES.blur} `,
-          `.photo .profile-link img  ${STYLES.blur} `,
-          `.profiles-show.subheader img  ${STYLES.blur} `,
-          `.avatar-container img  ${STYLES.blur} `,
-          `.review img ${STYLES.blur} `,
-          `.qtip-content img  ${STYLES.blur} `,
-        ];
+            `.candidate-header-content img,
+             .card-content-container img, 
+             .photo .profile-link img, 
+             .profiles-show.subheader img, 
+             .avatar-container img, 
+             .review img, 
+             .qtip-content img  ${STYLES.blur} `
+          ];
 
 
 
@@ -183,21 +187,16 @@ function clearPhotos(togglePhotos) {
     document.body.appendChild(style)
 
     const obfuscate = [
-      `span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail * ${STYLES.colorToBlack}`,
+      `span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail *,
+      [id^='control_gen_'] > div.header > h3,
+      #aux > div.insights > h3 ${STYLES.colorToBlack}`,
+      
+      `.presence-entity__image,
+       .pv-top-card-section__profile-photo-container .pv-top-card-section__image,
+       img ${STYLES.blur}`,
 
-      `.presence-entity__image ${STYLES.blur}`,
-
-      `.pv-top-card-section__profile-photo-container .pv-top-card-section__image ${STYLES.blur}`,
-
-      `img ${STYLES.blur}`,
-
-      `#aux > div.insights > h3 ${STYLES.colorToBlack}`,
-
-      `#aux > div.insights > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }`,
-
-      `[id^='control_gen_'] > div.header > h3 ${STYLES.colorToBlack}`,
-
-      `[id^='control_gen_'] > div.header > h3::after { content: ''; text-indent: 0; display: block; line-height: initial; }`,
+      `#aux > div.insights > h3::after,
+      [id^='control_gen_'] > div.header > h3::after ${STYLES.emptyBlock}`,
 
       `#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }`,
     ]
@@ -220,37 +219,48 @@ function clearNames(toggleNames) {
 
                 const nameObfuscate = [
                   `[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }`,
-                  `.neptune-grid > .launchpad__title { opacity: 0; }`,
-                  `[data-control-name="actor"] > h3 >  span:first-child ${STYLES.hidden }`,
-                  `[data-control-name="actor"] > h3 >  span:first-child:before  ${STYLES.linkText }`,
-                  `span[class*="-name"] ${ STYLES.hidden } `,
-                  `span[class*="-name"]:before  ${ STYLES.linkText }`,
-                  `span[class*="__name"]  ${ STYLES.hidden }`,
-                  `h3[class*="__name"]  ${ STYLES.hidden }`,
-                  `h3[class*="-name"]  ${ STYLES.hidden }`,
-                  `a[class*="name"]  ${ STYLES.hidden }`,
-                  `h3[class*="__name"]:before  ${ STYLES.linkText }`,
-                  `a[class*="name"]:before  ${ STYLES.linkText }`,
+
+                  `.neptune-grid > .launchpad__title,
+                   .msg-conversation-card__message-snippet-body,
+                   .pv-contact-info__card-sub-heading,
+                   .entity-hovercard ${STYLES.zeroOpacity}`,
+
+                  `[data-control-name="actor"] > h3 >  span:first-child,
+                   span[class*="__name"],
+                   h3[class*="__name"],
+                   h3[class*="-name"], 
+                   a[class*="name"],
+                   .profile-rail-card__actor-link > p,
+                   .pv-entity__summary-info > p,
+                   [data-control-name="edit_endorsements"],
+                   [data-control-name="update_topbar_actor"], 
+                   .pv-recent-activity-section__card-heading,
+                   [data-control-name="topcard"] h2,
+                   .pv-top-card-section__name,
+                   span[class*="-name"]  ${STYLES.hidden }`,
+
+
+                  `[data-control-name="actor"] > h3 >  span:first-child:before,
+                   span[class*="-name"]:before,
+                   h3[class*="__name"]:before,
+                   a[class*="name"]:before, 
+                   [data-control-name="update_topbar_actor"]:before, 
+                   [data-control-name="topcard"] h2:before ${STYLES.linkText }`,
+                 
+
                   `[class*="person-info__shared"] ${ STYLES.blur }`,
-                  `.msg-conversation-card__message-snippet-body { opacity: 0; }`,
-                  `.profile-rail-card__actor-link > p ${ STYLES.hidden } `,
-                  `.pv-contact-info__card-sub-heading { opacity: 0; }`,
-                  `.pv-entity__summary-info > p  ${ STYLES.hidden } `,
-                  `.entity-hovercard { opacity:0 !important;}`,
-                  `[data-control-name="edit_endorsements"] ${STYLES.hidden } `,
-                  `[data-control-name="update_topbar_actor"] ${STYLES.hidden }`,
-                  `.pv-recent-activity-section__card-heading  ${STYLES.hidden } `,
-                  `[data-control-name="update_topbar_actor"]:before ${ STYLES.linkText } `,
-                  `[data-control-name="topcard"] h2 ${ STYLES.hidden }`,
-                  `[data-control-name="topcard"] h2:before ${ STYLES.linkText } `,
-                  `.pv-top-card-section__name:before ${ STYLES.emptyContent }`,
-                  `.pv-top-card-section__name ${ STYLES.hidden }`,
-                  `span[class*="school"] ${ STYLES.visible }`,
-                  `span[class*="school"]:before ${ STYLES.emptyContent }`,
-                  `span[class*="skill"]:before ${ STYLES.emptyContent }`,
-                  `span[class*="skill"] ${ STYLES.visible }`,
-                  `span[class*="degree"]:before ${ STYLES.emptyContent }`,
-                  `span[class*="degree"] ${ STYLES.visible }`,
+
+               
+                
+                  `.pv-top-card-section__name:before,
+                    span[class*="school"]:before,
+                    span[class*="skill"]:before,
+                    span[class*="degree"]:before ${ STYLES.emptyContent }`,
+
+
+                  `span[class*="school"],
+                   span[class*="skill"],
+                   span[class*="degree"] ${ STYLES.visible }`
                 ];
 
 
