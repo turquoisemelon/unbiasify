@@ -289,22 +289,25 @@ function clearTwitterNames(toggleTwitterNames) {
             document.body.appendChild(style);
 
             var rules = [
-              `strong.fullname.show-popup-with-id ${ STYLES.hidden }`,
-              `strong.fullname.show-popup-with-id:before ${ STYLES.linkText }`,
-              `span.username.u-dir ${ STYLES.hidden }`,
-              `.ProfileNameTruncated-link ${ STYLES.hidden }`,
-              `.ProfileNameTruncated-link:before ${ STYLES.linkText }`,
-              `.ProfileHeaderCard-nameLink ${ STYLES.hidden }`,
-              `.ProfileHeaderCard-nameLink:before ${ STYLES.linkText }`,
-              `span.NewTweetButton-text ${ STYLES.hidden }`,
-              `span.ProfileHeaderCard-urlText > a ${ STYLES.hidden }`,
-              `.js-retweet-text b ${ STYLES.hidden }`,
+              `strong.fullname.show-popup-with-id,
+              span.username.u-dir,
+              .ProfileNameTruncated-link,
+              .ProfileHeaderCard-nameLink,
+              span.NewTweetButton-text,
+              span.ProfileHeaderCard-urlText > a,
+              .js-retweet-text b,
+              div.tooltip ,
+              .js-recommended-followers .fullname, 
+              .ActivityItem .fullname ${ STYLES.hidden }`,
+
               `.js-retweet-text b:before { visibility: visible; content: "User"; }`,
-              `div.tooltip ${ STYLES.hidden }`,
-              `.js-recommended-followers .fullname ${ STYLES.hidden }`,
-              `.js-recommended-followers .fullname:before ${ STYLES.linkText }`,
-              `.ActivityItem .fullname ${ STYLES.hidden }`,
-              `.ActivityItem .fullname:before ${ STYLES.linkText }`,
+
+              `.ActivityItem .fullname:before,
+              .js-recommended-followers .fullname:before,
+              .ProfileHeaderCard-nameLink:before,
+              .ProfileNameTruncated-link:before,
+              strong.fullname.show-popup-with-id:before ${ STYLES.linkText }`,
+
             ]
 
             rules.forEach((r, i) => style.sheet.insertRule(r, i));
@@ -328,16 +331,17 @@ function clearTwitterPhotos(toggleTwitterPhotos) {
         document.body.appendChild(style);
 
         var rules = [
-            `img.avatar.js-action-profile-avatar ${ STYLES.hidden }`,
-            `.ProfileCard-bg ${ STYLES.hidden }`,
-            `.ProfileCard-avatarImage.js-action-profile-avatar ${ STYLES.hidden }`,
-            `.ProfileAvatar-image ${ STYLES.hidden }`,
-            `.ProfileCanopy-headerBg > img ${STYLES.blur}`,
-            `.ProfileCardMini-avatarImage ${ STYLES.hidden }`,
-            `.ActivityItem .avatar ${ STYLES.hidden }`,
-            `.js-profile-popup-actionable .avatar ${STYLES.blur}`,
-            `.ActivityItem-displayText strong ${ STYLES.hidden }`,
-            `.tweet-content .QuoteTweet-originalAuthor ${ STYLES.hidden } `
+            `img.avatar.js-action-profile-avatar,
+            .ProfileCard-bg,
+            .ProfileCard-avatarImage.js-action-profile-avatar,
+            .ProfileAvatar-image,
+            .ProfileCardMini-avatarImage,
+            .ActivityItem .avatar,
+            .ActivityItem-displayText strong,
+            .tweet-content .QuoteTweet-originalAuthor ${ STYLES.hidden }`,
+
+            `.js-profile-popup-actionable .avatar,
+            .ProfileCanopy-headerBg > img ${ STYLES.blur }`,
         ]
 
         rules.forEach((r, i) => style.sheet.insertRule(r, i));
