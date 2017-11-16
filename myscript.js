@@ -107,165 +107,139 @@ function getIntitialVal(property,updaterFunction,type) {
     });
 }
 
-
-function clearAlNames(toggleAlNames) {
-    var prevStyle = document.getElementById('BIAS_ANGELLIST_NAMES');
-    if (!toggleAlNames && prevStyle) {
+function toggleStyles(styleId, obfuscate, toggleBoolVar) {
+    var prevStyle = document.getElementById(styleId);
+    if (!toggleBoolVar && prevStyle) {
         prevStyle.parentNode.removeChild(prevStyle);
-      } else if (!prevStyle && toggleAlNames){
+      } else if (!prevStyle && toggleBoolVar){
         const style = document.createElement('style');
-        style.id = 'BIAS_ANGELLIST_NAMES';
+        style.id = styleId;
 
         document.body.appendChild(style);
 
-        const obfuscate = [
-          `a.u-colorGray3.u-uncoloredLink,
-          .qtip a.profile-link,
-          .connection-text,
-          .people-list.connection  > div,
-          .profile-text > h1,
-          .profiles-show.connections .object-list-title a.profile-link,
-          .profiles-show.connections .object-list-subtitle,
-          .candidate-header-content .u-uncoloredLink,
-          .card-content-container .js-browse-table-row-name a.u-unstyledLink,
-          .avatar-container .name,
-          .review a.profile-link.u-uncoloredLink,
-          .similar-profile .object-list-title  ${STYLES.hidden}`,
-
-          `.qtip a.profile-link:before,
-           a.u-colorGray3.u-uncoloredLink:before,
-          .profiles-show.connections .object-list-title a.profile-link:before,
-          .candidate-header-content .u-uncoloredLink:before,
-          .card-content-container .js-browse-table-row-name a.u-unstyledLink:before,
-          .review a.profile-link.u-uncoloredLink:before   ${STYLES.linkText}`
-        ];
-
-
         obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
-      }
+      } 
+}
+function clearAlNames(toggleAlNames) {
+
+    const obfuscate = [
+        `a.u-colorGray3.u-uncoloredLink,
+        .qtip a.profile-link,
+        .connection-text,
+        .people-list.connection  > div,
+        .profile-text > h1,
+        .profiles-show.connections .object-list-title a.profile-link,
+        .profiles-show.connections .object-list-subtitle,
+        .candidate-header-content .u-uncoloredLink,
+        .card-content-container .js-browse-table-row-name a.u-unstyledLink,
+        .avatar-container .name,
+        .review a.profile-link.u-uncoloredLink,
+        .similar-profile .object-list-title  ${STYLES.hidden}`,
+
+        `.qtip a.profile-link:before,
+         a.u-colorGray3.u-uncoloredLink:before,
+        .profiles-show.connections .object-list-title a.profile-link:before,
+        .candidate-header-content .u-uncoloredLink:before,
+        .card-content-container .js-browse-table-row-name a.u-unstyledLink:before,
+        .review a.profile-link.u-uncoloredLink:before   ${STYLES.linkText}`
+      ];
+
+      const styleId = 'BIAS_ANGELLIST_NAMES'
+      toggleStyles(styleId, obfuscate, toggleAlNames)
 }
 
 function clearAlPhotos(toggleAlPhotos) {
 
-    var prevStyle = document.getElementById('BIAS_ANGELLIST_PHOTOS');
-    if (!toggleAlPhotos && prevStyle) {
-        prevStyle.parentNode.removeChild(prevStyle);
-      } else if (toggleAlPhotos && !prevStyle) {
-        const style = document.createElement('style');
-        style.id = 'BIAS_ANGELLIST_PHOTOS';
+    const obfuscate = [
+        `.candidate-header-content img,
+         .card-content-container img, 
+         .photo .profile-link img, 
+         .profiles-show.subheader img, 
+         .avatar-container img, 
+         .review img, 
+         .qtip-content img  ${STYLES.blur} `
+      ];
 
-        document.body.appendChild(style);
+      const styleId = 'BIAS_ANGELLIST_PHOTOS';
 
-        const obfuscate = [
-            `.candidate-header-content img,
-             .card-content-container img, 
-             .photo .profile-link img, 
-             .profiles-show.subheader img, 
-             .avatar-container img, 
-             .review img, 
-             .qtip-content img  ${STYLES.blur} `
-          ];
-
-
-
-        obfuscate.forEach((r, i) => style.sheet.insertRule(r, i));
-    }
+      toggleStyles(styleId, obfuscate, toggleAlPhotos)
 }
 
 function clearPhotos(togglePhotos) {
     if (window.location.href.indexOf('linkedin.com') == -1) {
         return;
     }
-    var prevStyle = document.getElementById('BIAS_LINKEDIN');
-
-  if (!togglePhotos && prevStyle) {
-    prevStyle.parentNode.removeChild(prevStyle)
-  } else if (togglePhotos && !prevStyle) {
-    const style = document.createElement('style')
-    style.id = 'BIAS_LINKEDIN'
-
-    document.body.appendChild(style)
 
     const obfuscate = [
-      `span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail *,
-      [id^='control_gen_'] > div.header > h3,
-      #aux > div.insights > h3 ${STYLES.colorToBlack}`,
-      
-      `.presence-entity__image,
-       .pv-top-card-section__profile-photo-container .pv-top-card-section__image,
-       img ${STYLES.blur}`,
+        `span.full-name, a[href^='https://www.linkedin.com/profile'], #sticky-rail *,
+        [id^='control_gen_'] > div.header > h3,
+        #aux > div.insights > h3 ${STYLES.colorToBlack}`,
+        
+        `.presence-entity__image,
+         .pv-top-card-section__profile-photo-container .pv-top-card-section__image,
+         img ${STYLES.blur}`,
+  
+        `#aux > div.insights > h3::after,
+        [id^='control_gen_'] > div.header > h3::after ${STYLES.emptyBlock}`,
+  
+        `#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }`,
+      ];
 
-      `#aux > div.insights > h3::after,
-      [id^='control_gen_'] > div.header > h3::after ${STYLES.emptyBlock}`,
+      const styleId = 'BIAS_LINKEDIN';
 
-      `#in-common > svg > circle[fill^='url('] { fill-opacity: 0 !important; fill: black !important; }`,
-    ]
-
-    obfuscate.forEach((r, i) => style.sheet.insertRule(r, i))
-  }
+      toggleStyles(styleId, obfuscate, togglePhotos);
 }
 function clearNames(toggleNames) {
     if (window.location.href.indexOf('linkedin.com') == -1) {
         return;
     }
-    var prevStyle = document.getElementById('BIAS_NAMES_LINKEDIN');
-              if (!toggleNames && prevStyle) {
-                prevStyle.parentNode.removeChild(prevStyle);
-              } else if (toggleNames && !prevStyle) {
-                const style = document.createElement('style');
-                style.id = 'BIAS_NAMES_LINKEDIN';
+    const nameObfuscate = [
+        `[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }`,
 
-                document.body.appendChild(style);
+        `.neptune-grid > .launchpad__title,
+         .msg-conversation-card__message-snippet-body,
+         .pv-contact-info__card-sub-heading,
+         .entity-hovercard ${STYLES.zeroOpacity}`,
 
-                const nameObfuscate = [
-                  `[data-control-name="identity_welcome_message"] { color: white !important; background-color: white !important; }`,
-
-                  `.neptune-grid > .launchpad__title,
-                   .msg-conversation-card__message-snippet-body,
-                   .pv-contact-info__card-sub-heading,
-                   .entity-hovercard ${STYLES.zeroOpacity}`,
-
-                  `[data-control-name="actor"] > h3 >  span:first-child,
-                   span[class*="__name"],
-                   h3[class*="__name"],
-                   h3[class*="-name"], 
-                   a[class*="name"],
-                   .profile-rail-card__actor-link > p,
-                   .pv-entity__summary-info > p,
-                   [data-control-name="edit_endorsements"],
-                   [data-control-name="update_topbar_actor"], 
-                   .pv-recent-activity-section__card-heading,
-                   [data-control-name="topcard"] h2,
-                   .pv-top-card-section__name,
-                   span[class*="-name"]  ${STYLES.hidden }`,
+        `[data-control-name="actor"] > h3 >  span:first-child,
+         span[class*="__name"],
+         h3[class*="__name"],
+         h3[class*="-name"], 
+         a[class*="name"],
+         .profile-rail-card__actor-link > p,
+         .pv-entity__summary-info > p,
+         [data-control-name="edit_endorsements"],
+         [data-control-name="update_topbar_actor"], 
+         .pv-recent-activity-section__card-heading,
+         [data-control-name="topcard"] h2,
+         .pv-top-card-section__name,
+         span[class*="-name"]  ${STYLES.hidden }`,
 
 
-                  `[data-control-name="actor"] > h3 >  span:first-child:before,
-                   span[class*="-name"]:before,
-                   h3[class*="__name"]:before,
-                   a[class*="name"]:before, 
-                   [data-control-name="update_topbar_actor"]:before, 
-                   [data-control-name="topcard"] h2:before ${STYLES.linkText }`,
-                 
+        `[data-control-name="actor"] > h3 >  span:first-child:before,
+         span[class*="-name"]:before,
+         h3[class*="__name"]:before,
+         a[class*="name"]:before, 
+         [data-control-name="update_topbar_actor"]:before, 
+         [data-control-name="topcard"] h2:before ${STYLES.linkText }`,
+       
 
-                  `[class*="person-info__shared"] ${ STYLES.blur }`,
+        `[class*="person-info__shared"] ${ STYLES.blur }`,
 
-               
-                
-                  `.pv-top-card-section__name:before,
-                    span[class*="school"]:before,
-                    span[class*="skill"]:before,
-                    span[class*="degree"]:before ${ STYLES.emptyContent }`,
-
-
-                  `span[class*="school"],
-                   span[class*="skill"],
-                   span[class*="degree"] ${ STYLES.visible }`
-                ];
+     
+      
+        `.pv-top-card-section__name:before,
+          span[class*="school"]:before,
+          span[class*="skill"]:before,
+          span[class*="degree"]:before ${ STYLES.emptyContent }`,
 
 
-                nameObfuscate.forEach((r,i) => style.sheet.insertRule(r,i));
-              }
+        `span[class*="school"],
+         span[class*="skill"],
+         span[class*="degree"] ${ STYLES.visible }`
+      ];
+      const styleId = 'BIAS_NAMES_LINKEDIN';
+      toggleStyles(styleId, nameObfuscate, toggleNames);
 }
 
 function clearTwitterNames(toggleTwitterNames) {
@@ -273,46 +247,31 @@ function clearTwitterNames(toggleTwitterNames) {
         return;
     }
 
-    var prevStyle = document.getElementById('BIAS_NAMES_TWITTER');
-    if (!toggleTwitterNames && prevStyle) {
-      prevStyle.parentNode.removeChild(prevStyle);
-    } else if (toggleTwitterNames) {
+    document.title = "Twitter";
+    const rules = [
+        `strong.fullname.show-popup-with-id,
+        span.username.u-dir,
+        .ProfileNameTruncated-link,
+        .ProfileHeaderCard-nameLink,
+        span.NewTweetButton-text,
+        span.ProfileHeaderCard-urlText > a,
+        .js-retweet-text b,
+        div.tooltip ,
+        .js-recommended-followers .fullname, 
+        .ActivityItem .fullname ${ STYLES.hidden }`,
 
-        // This won't re-run on page change, meaning that if you go home
-        // then back to profile you'll get the users name as the title
-        document.title = "Twitter";
+        `.js-retweet-text b:before { visibility: visible; content: "User"; }`,
 
-        if (!prevStyle) {
-            var style = document.createElement('style');
-            style.id = 'BIAS_NAMES_TWITTER';
+        `.ActivityItem .fullname:before,
+        .js-recommended-followers .fullname:before,
+        .ProfileHeaderCard-nameLink:before,
+        .ProfileNameTruncated-link:before,
+        strong.fullname.show-popup-with-id:before ${ STYLES.linkText }`,
+      ];
 
-            document.body.appendChild(style);
+      const styleId = 'BIAS_NAMES_TWITTER';
 
-            var rules = [
-              `strong.fullname.show-popup-with-id,
-              span.username.u-dir,
-              .ProfileNameTruncated-link,
-              .ProfileHeaderCard-nameLink,
-              span.NewTweetButton-text,
-              span.ProfileHeaderCard-urlText > a,
-              .js-retweet-text b,
-              div.tooltip ,
-              .js-recommended-followers .fullname, 
-              .ActivityItem .fullname ${ STYLES.hidden }`,
-
-              `.js-retweet-text b:before { visibility: visible; content: "User"; }`,
-
-              `.ActivityItem .fullname:before,
-              .js-recommended-followers .fullname:before,
-              .ProfileHeaderCard-nameLink:before,
-              .ProfileNameTruncated-link:before,
-              strong.fullname.show-popup-with-id:before ${ STYLES.linkText }`,
-
-            ]
-
-            rules.forEach((r, i) => style.sheet.insertRule(r, i));
-        }
-    }
+      toggleStyles(styleId, rules, toggleTwitterNames);
 }
 
 function clearTwitterPhotos(toggleTwitterPhotos) {
@@ -320,32 +279,23 @@ function clearTwitterPhotos(toggleTwitterPhotos) {
         return;
     }
 
-    var styleId = 'BIAS_PHOTOS_TWITTER'
-    var prevStyle = document.getElementById(styleId);
-    if (!toggleTwitterPhotos && prevStyle) {
-        prevStyle.parentNode.removeChild(prevStyle);
-    } else if (toggleTwitterPhotos && !prevStyle) {
-        var style = document.createElement('style');
-        style.id = styleId;
+    const styleId = 'BIAS_PHOTOS_TWITTER';
 
-        document.body.appendChild(style);
+    const rules = [
+        `img.avatar.js-action-profile-avatar,
+        .ProfileCard-bg,
+        .ProfileCard-avatarImage.js-action-profile-avatar,
+        .ProfileAvatar-image,
+        .ProfileCardMini-avatarImage,
+        .ActivityItem .avatar,
+        .ActivityItem-displayText strong,
+        .tweet-content .QuoteTweet-originalAuthor ${ STYLES.hidden }`,
 
-        var rules = [
-            `img.avatar.js-action-profile-avatar,
-            .ProfileCard-bg,
-            .ProfileCard-avatarImage.js-action-profile-avatar,
-            .ProfileAvatar-image,
-            .ProfileCardMini-avatarImage,
-            .ActivityItem .avatar,
-            .ActivityItem-displayText strong,
-            .tweet-content .QuoteTweet-originalAuthor ${ STYLES.hidden }`,
+        `.js-profile-popup-actionable .avatar,
+        .ProfileCanopy-headerBg > img ${ STYLES.blur }`,
+    ];
 
-            `.js-profile-popup-actionable .avatar,
-            .ProfileCanopy-headerBg > img ${ STYLES.blur }`,
-        ]
-
-        rules.forEach((r, i) => style.sheet.insertRule(r, i));
-    }
+    toggleStyles(styleId, rules, toggleTwitterPhotos);
 }
 
 chrome.runtime.onMessage.addListener(
