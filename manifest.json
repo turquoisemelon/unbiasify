@@ -24,7 +24,8 @@
       "matches": [
         "https://www.linkedin.com/*",
         "https://angel.co/*",
-        "https://twitter.com/*"
+        "https://twitter.com/*",
+        "https://repl.it/*"
       ],
       "js": ["jquery.min.js", "myscript.js"]
     }

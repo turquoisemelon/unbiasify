@@ -5,18 +5,24 @@ const TOGGLE_ANGELLIST_PHOTOS = 'toggleAlPhotos'
 const TOGGLE_ANGELLIST_NAMES = 'toggleAlNames'
 const TOGGLE_TWITTER_PHOTOS = 'toggleTwitterPhotos'
 const TOGGLE_TWITTER_NAMES = 'toggleTwitterNames'
+const TOGGLE_REPLIT_PHOTOS = 'toggleReplitPhotos'
+const TOGGLE_REPLIT_NAMES = 'toggleReplitNames'
+
 const URLS = {
     'linkedIn': 'linkedin.com',
     'twitter': 'twitter.com',
-    'angelList': 'angel.co'
+    'angelList': 'angel.co',
+    'replit': 'repl.it'
 }
 
 const STYLES = {
     'hidden' :  '{ visibility: hidden !important; }',
+    'hiddenRelative': '{ visibility: hidden !important; position: relative; }',
     'linkText' :  '{ content: "Link to Profile"; visibility: visible; }',
     'blur': '{ opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
     'colorToBlack': '{ color: black !important; background-color: black !important; }',
     'visible': '{ visibility: visible !important; }',
+    'replitStudentText': '',
     'emptyContent': '{ content: "" !important; }',
     'emptyBlock': '{ content: ""; text-indent: 0; display: block; line-height: initial; }',
     'zeroOpacity': '{ opacity:0 !important; }'
@@ -157,11 +163,44 @@ const STYLE_SHEETS = {
         'nameId': 'BIAS_ANGELLIST_NAMES',
         'photoId': 'BIAS_ANGELLIST_PHOTOS'
     },
+    'replit': {
+        'names':[
+            `div[style*="flex: 1 1 0%; margin-left: 55px; text-align: left; line-height: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"],
+             div[style*="font-family:Raleway;font-size:20px;color:#b3b3b3;margin:.25em;"],
+             div[style*="font-size:28px;font-family:Raleway;font-weight:400;color:#3F403F;margin:40px 0;"] ${STYLES.hidden}`,
+
+            `h3[style*="font-weight: 400; font-size: 19px; height: 25px; display: flex; align-items: center; justify-content: center; margin-top: 10px; color: rgb(120, 121, 123); min-width: 150px; max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"],
+             div[style*="box-sizing: border-box; height: 42px; line-height: 42px; width: 98%; border-bottom: 1px solid rgb(240, 240, 240); color: rgb(128, 127, 127);"],
+             a[style*="border-bottom: none; text-decoration: none; color: rgb(65, 131, 196);"],
+             a[style*="border-bottom: none; text-decoration: underline; color: rgb(65, 131, 196);"],
+             h1[style*="font-family:Raleway;font-weight:100;font-size:44px;color:#404040;"] ${STYLES.hiddenRelative}`,
+
+            'div[style*="flex: 1 1 0%; margin-left: 55px; text-align: left; line-height: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"]:before { content: "Student"; visibility: visible; }',
+
+            'h3[style*="font-weight: 400; font-size: 19px; height: 25px; display: flex; align-items: center; justify-content: center; margin-top: 10px; color: rgb(120, 121, 123); min-width: 150px; max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"]:before { content: "Student"; visibility: visible; position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; align-items: center; }',
+
+            'div[style*="box-sizing: border-box; height: 42px; line-height: 42px; width: 98%; border-bottom: 1px solid rgb(240, 240, 240); color: rgb(128, 127, 127);"]:before { content: "Student"; visibility: visible; border-bottom: 1px solid rgb(240, 240, 240); position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; align-items: center; }',
+
+            'h1[style*="font-family:Raleway;font-weight:100;font-size:44px;color:#404040;"]:before { content: "Repl.it User"; visibility: visible; position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; align-items: center; }',
+
+            'div[style*="font-size:28px;font-family:Raleway;font-weight:400;color:#3F403F;margin:40px 0;"]:before { content: "Public Repls"; visibility: visible; }',
+
+            `a[style*="border-bottom: none; text-decoration: none; color: rgb(65, 131, 196);"]:before,
+             a[style*="border-bottom: none; text-decoration: underline; color: rgb(65, 131, 196);"]:before { visibility: visible; content: "@repl_user"; position: absolute; }`
+        ],
+        'photos':[
+            `div[style*="height:0px;margin:1em;"] > div:not([class]),
+             a[href^="/@"] > div:not([class]) { background-image: none !important; background-color: #4A4A4A !important; }`,
+        ],
+        'nameId': 'BIAS_REPLIT_NAMES',
+        'photoId': 'BIAS_REPLIT_PHOTOS'
+    }
 }
 
 var linkedinUpdater = createModel('linkedIn', TOGGLE_LINKED_IN_PHOTOS, TOGGLE_LINKED_IN_NAMES)();
 var angellistUpdater = createModel('angelList', TOGGLE_ANGELLIST_PHOTOS, TOGGLE_ANGELLIST_NAMES)();
 var twitterUpdater = createModel('twitter', TOGGLE_TWITTER_PHOTOS, TOGGLE_TWITTER_NAMES)();
+var replitUpdater = createModel('replit', TOGGLE_REPLIT_PHOTOS, TOGGLE_REPLIT_NAMES)();
 
 changeAll = (isSet = false, val = true)  => {
     linkedinUpdater('photos',isSet,val)
@@ -170,6 +209,8 @@ changeAll = (isSet = false, val = true)  => {
     angellistUpdater('names',isSet,val)
     twitterUpdater('photos',isSet,val)
     twitterUpdater('names',isSet,val)
+    replitUpdater('photos',isSet,val)
+    replitUpdater('names',isSet,val)
 }
 
 var toggleAll = function()  {
@@ -180,7 +221,6 @@ var toggleAll = function()  {
         
     }
 }()
-
 
 function createModel(styleIdentifier, photoIdentifier, nameIdentifier) {
 
@@ -219,6 +259,8 @@ getIntitialVal(TOGGLE_ANGELLIST_PHOTOS,angellistUpdater,'photos')
 getIntitialVal(TOGGLE_ANGELLIST_NAMES,angellistUpdater,'names')
 getIntitialVal(TOGGLE_TWITTER_PHOTOS,twitterUpdater,'photos')
 getIntitialVal(TOGGLE_TWITTER_NAMES,twitterUpdater,'names')
+getIntitialVal(TOGGLE_REPLIT_PHOTOS,replitUpdater,'photos')
+getIntitialVal(TOGGLE_REPLIT_NAMES,replitUpdater,'names')
 
 $(document).keydown(function(e){
     var ctrlKey = e.ctrlKey || e.metaKey;
@@ -268,7 +310,6 @@ function toggleStyles(styleId, obfuscate, toggleBoolVar, url) {
       } 
 }
 
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         switch (true) {
@@ -289,6 +330,12 @@ chrome.runtime.onMessage.addListener(
                 break;
             case request.toggleTwitterPhotos:
                 twitterUpdater('photos',true)
+                break;
+            case request.toggleReplitNames:
+                replitUpdater('names',true)
+                break;
+            case request.toggleReplitPhotos:
+                replitUpdater('photos',true)
                 break;
         }
 });
