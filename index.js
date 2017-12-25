@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var $clearReplitNames = $('#clear-replit-names')
   var $clearGreenhousePhotos = $('#clear-greenhouse-photos')
   var $clearGreenhouseNames = $('#clear-greenhouse-names')
+  var $clearFacebookPhotos = $('#clear-facebook-photos')
+  var $clearFacebookNames = $('#clear-facebook-names')
 
   const TOGGLE_LINKED_IN_PHOTOS = 'togglePhotos'
   const TOGGLE_LINKED_IN_NAMES = 'toggleNames'
@@ -20,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const TOGGLE_REPLIT_NAMES = 'toggleReplitNames'
   const TOGGLE_GREENHOUSE_PHOTOS = 'toggleGreenhousePhotos'
   const TOGGLE_GREENHOUSE_NAMES = 'toggleGreenhouseNames'
+  const TOGGLE_FACEBOOK_PHOTOS = 'toggleFacebookPhotos'
+  const TOGGLE_FACEBOOK_NAMES = 'toggleFacebookNames'
 
   setInitialValues(TOGGLE_LINKED_IN_PHOTOS, $clearLinkedInPhotos)
   setInitialValues(TOGGLE_LINKED_IN_NAMES, $clearLinkedInNames)
@@ -31,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
   setInitialValues(TOGGLE_REPLIT_NAMES, $clearReplitNames)
   setInitialValues(TOGGLE_GREENHOUSE_PHOTOS, $clearGreenhousePhotos)
   setInitialValues(TOGGLE_GREENHOUSE_NAMES, $clearGreenhouseNames)
+  setInitialValues(TOGGLE_FACEBOOK_PHOTOS, $clearFacebookPhotos)
+  setInitialValues(TOGGLE_FACEBOOK_NAMES, $clearFacebookNames)
 
   $clearLinkedInPhotos.off().on('change', function() {
     sendMessage({ togglePhotos: true })
@@ -70,6 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   $clearGreenhouseNames.off().on('change', function() {
     sendMessage({ toggleGreenhouseNames: true })
+  })
+
+  $clearFacebookPhotos.off().on('change', function() {
+    sendMessage({ toggleFacebookPhotos: true })
+  })
+
+  $clearFacebookNames.off().on('change', function() {
+    sendMessage({ toggleFacebookNames: true })
   })
 
   function sendMessage(message) {

@@ -26,7 +26,8 @@
         "https://angel.co/*",
         "https://twitter.com/*",
         "https://repl.it/*",
-        "https://app.greenhouse.io/*"
+        "https://app.greenhouse.io/*",
+        "https://www.facebook.com/*"
       ],
       "js": ["jquery.min.js", "myscript.js"]
     }
