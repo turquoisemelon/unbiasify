@@ -13,7 +13,9 @@ After you have installed the extension you should be able to see a little unbias
 
 <img src="icon.png" height="25">
 
-Next; all you have to do is go to linked in and click that icon. Depending on what option you select in the dropdown all user names and/or images will be obsured, leaving you free to focus on what really matters; people's skills and experiences
+Next; all you have to do is go to linked in and click that icon. Depending on what option you select in the dropdown all user names and/or images will be obsured, leaving you free to focus on what really matters; people's skills and experiences.
+
+`Ctrl+Shift+;` on Windows and `Cmd+Shift+;` on Mac work as master toggles and toggle names and images on all supported sites. 
 
 <img src="assets/unbiasify.gif" height="400">
 
