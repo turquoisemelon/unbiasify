@@ -210,7 +210,6 @@ const STYLE_SHEETS = {
     photoId: 'BIAS_GREENHOUSE_PHOTOS',
   },
   facebook: {
-    // @todo: hide name and photo in the inbox
     names: [
       `div._52eh._5bcu > div > a._32mo > span,
             div._6a._5u5j._6b > h5._5pbw._5vra > span.fwn.fcg > span.fwb.fcg > a,
