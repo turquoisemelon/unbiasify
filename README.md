@@ -25,6 +25,7 @@ Next; all you have to do is go to linked in and click that icon. Depending on wh
 * Linkedin -- free version only
 * Angellist
 * Twitter
+* Facebook
 
 # Local Installation Steps
 
